@@ -31,11 +31,10 @@ pipeline {
             agent {
                 dockerfile {
                     filename 'Dockerfile'
-                    args '-u 0:0'
-/*                    additionalBuildArgs '''\
-                        --build-arg GID=1001 \
-                        --build-arg UID=1001 \
-                        '''*/
+                    additionalBuildArgs '''\
+                        --build-arg GID=0 \
+                        --build-arg UID=0 \
+                        '''
                     reuseNode true
                 }
             }
