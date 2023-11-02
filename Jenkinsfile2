@@ -6,7 +6,7 @@ node {
 }
 
 pipeline {
-    agent { label 'docker' }
+    agent docker
     stages {
         stage('commit_stage') {
             steps {
