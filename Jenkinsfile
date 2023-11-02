@@ -22,8 +22,12 @@ pipeline {
     }
 
     stages {
-		stage('Check tooling versions') {
+		stage('Check uid/gid') {
             steps {
+                echo "${JENKINS_USER_NAME}"
+                echo "${JENKINS_USER_ID}"
+                echo "${JENKINS_GROUP_ID}"
+
                 script {
                     currentWorkspace = "$WORKSPACE"
                     echo "Current workspace is ${currentWorkspace}"
@@ -33,9 +37,6 @@ pipeline {
 				  echo "Check permissions 1"
 				  sh 'ls -lrt'
 				  sh 'whoami'
-                  docker version
-                  docker info
-                  docker-compose version
                 '''
             }
         }
