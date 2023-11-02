@@ -35,6 +35,7 @@ pipeline {
                         --build-arg GID=$JENKINS_GROUP_ID \
                         --build-arg UID=$JENKINS_USER_ID \
                         '''
+                    reuseNode true
                 }
             }
             steps {
