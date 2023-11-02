@@ -17,19 +17,23 @@ pipeline {
         timeout(time: 5, unit: 'MINUTES')
     }
 
-    agent {
-        dockerfile {
-            filename 'Dockerfile'
-            additionalBuildArgs '''\
-            --build-arg GID=$JENKINS_GROUP_ID \
-            --build-arg UID=$JENKINS_USER_ID \
-            --build-arg UNAME=$JENKINS_USER_NAME \
-            '''
-        }
-    }
-
     stages {
 		stage('Check uid/gid') {
+            steps {
+                echo 'JENKINS_USER_ID'
+                echo JENKINS_USER_ID
+                echo 'JENKINS_GROUP_ID'
+                echo JENKINS_GROUP_ID
+            }
+            agent {
+                dockerfile {
+                    filename 'Dockerfile'
+                    additionalBuildArgs '''\
+                        --build-arg GID=$JENKINS_GROUP_ID \
+                        --build-arg UID=$JENKINS_USER_ID \
+                        '''
+                }
+            }
             steps {
                 //echo "${JENKINS_USER_NAME}"
                 echo "${JENKINS_USER_ID}"
