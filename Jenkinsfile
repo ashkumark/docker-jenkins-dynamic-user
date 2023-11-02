@@ -32,8 +32,8 @@ pipeline {
                 dockerfile {
                     filename 'Dockerfile'
                     additionalBuildArgs '''\
-                        --build-arg GID=$JENKINS_GROUP_ID \
-                        --build-arg UID=$JENKINS_USER_ID \
+                        --build-arg GID=JENKINS_GROUP_ID \
+                        --build-arg UID=JENKINS_USER_ID \
                         '''
                 }
             }
