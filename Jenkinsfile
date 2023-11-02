@@ -1,15 +1,22 @@
+def JENKINS_USER_ID
+def JENKINS_GROUP_ID
+node {
+    JENKINS_USER_ID = sh(returnStdout: true, script: 'id -u').trim()
+    JENKINS_GROUP_ID = sh(returnStdout: true, script: 'id -g').trim()
+}
+
 pipeline {
     environment {
-		JENKINS_USER_NAME = "${sh(script:'id -un', returnStdout: true).trim()}"
+		/*JENKINS_USER_NAME = "${sh(script:'id -un', returnStdout: true).trim()}"
 		JENKINS_USER_ID = "${sh(script:'id -u', returnStdout: true).trim()}"
-		JENKINS_GROUP_ID = "${sh(script:'id -g', returnStdout: true).trim()}"
+		JENKINS_GROUP_ID = "${sh(script:'id -g', returnStdout: true).trim()}"*/
 		currentWorkspace = ''
     }
-	
+
 	options {
         timeout(time: 5, unit: 'MINUTES')
     }
-	
+
     agent {
         dockerfile {
             filename 'Dockerfile'
@@ -24,7 +31,7 @@ pipeline {
     stages {
 		stage('Check uid/gid') {
             steps {
-                echo "${JENKINS_USER_NAME}"
+                //echo "${JENKINS_USER_NAME}"
                 echo "${JENKINS_USER_ID}"
                 echo "${JENKINS_GROUP_ID}"
 
@@ -40,14 +47,14 @@ pipeline {
                 '''
             }
         }
-		
+
         stage('Build Dependencies') {
             steps {
                 sh "Install dependencies"
             }
         }
 	}
-	
+
     post {
         always {
             sh "Job finished"

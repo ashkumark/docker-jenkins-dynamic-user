@@ -1,8 +1,6 @@
-def user_name
 def user_id
 def group_id
 node {
-    user_name = sh(returnStdout: true, script: 'id -un').trim()
     user_id = sh(returnStdout: true, script: 'id -u').trim()
     group_id = sh(returnStdout: true, script: 'id -g').trim()
 }
@@ -12,8 +10,6 @@ pipeline {
     stages {
         stage('commit_stage') {
             steps {
-                echo 'user_name'
-                echo user_name
                 echo 'user_id'
                 echo user_id
                 echo 'group_id'
