@@ -6,7 +6,7 @@ node {
 }
 
 pipeline {
-    agent docker
+    agent any
     stages {
         stage('commit_stage') {
             steps {
