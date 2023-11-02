@@ -14,6 +14,10 @@ RUN groupadd -g $GROUP_ID $USERNAME
 RUN useradd -r -u $USER_ID -g $GROUP_ID -d /home/$USERNAME $USERNAME
 RUN chown $USERNAME:$USERNAME /home/$USERNAME
 
+#Basic Utils
+RUN apt-get update
+RUN apt-get install -y wget curl jq unzip sudo tar acl --no-install-recommends
+
 #Docker - https://docs.docker.com/engine/api/
 ENV DOCKER_CHANNEL stable
 ENV DOCKER_VERSION 23.0.6
