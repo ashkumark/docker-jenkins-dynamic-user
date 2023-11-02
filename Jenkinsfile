@@ -18,13 +18,15 @@ pipeline {
     }
 
     stages {
-		stage('Check uid/gid') {
+        stage('Check uid/gid') {
             steps {
                 echo 'JENKINS_USER_ID'
                 echo JENKINS_USER_ID
                 echo 'JENKINS_GROUP_ID'
                 echo JENKINS_GROUP_ID
             }
+        }
+		stage('Build') {
             agent {
                 dockerfile {
                     filename 'Dockerfile'
