@@ -41,23 +41,23 @@ pipeline {
                 }
                 echo "Check Docker version.."
                 sh '''#!/bin/bash
-				  echo "Check permissions 1"
-				  sh 'ls -lrt'
-				  docker version
+                      echo "Check permissions 1"
+                      ls -lrt
+                      docker version
                 '''
             }
         }
 
         stage('Build Dependencies') {
             steps {
-                sh "Install dependencies"
+                echo "Install dependencies"
             }
         }
 	}
 
     post {
         always {
-            sh "Job finished"
+            echo "Job finished"
         }
     }
 }
