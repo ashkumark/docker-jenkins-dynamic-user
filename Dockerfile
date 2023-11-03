@@ -21,7 +21,7 @@ RUN apt-get install -y wget curl jq unzip sudo tar acl --no-install-recommends
 
 #Maven
 ENV MAVEN_VERSION 3.9.5
-RUN wget https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz
+RUN wget --no-check-certificate https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz
 RUN mkdir -p /opt/maven
 RUN tar -xvzf apache-maven-${MAVEN_VERSION}-bin.tar.gz -C /opt/maven/ --strip-components=1
 RUN ln -s /opt/maven/bin/mvn /usr/bin/mvn
