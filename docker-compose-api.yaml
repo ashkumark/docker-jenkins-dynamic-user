@@ -1,0 +1,91 @@
+version: "3.8"
+
+networks: 
+  grid:
+  rest:
+  
+volumes:
+  reports-api-volume:
+ 
+services:
+  # Version 5 - try multiple volumes (bind mount / volume mount)
+  api-test-service:
+    build:
+      context: .
+      dockerfile: Dockerfile2
+    container_name: api-test-container
+    networks:
+      - rest
+    volumes:
+#      - '/var/jenkins_home/workspace/reports:/home/docker-jenkins-test/target/'
+#      - reports-api-volume:/home/docker-jenkins-test/target/
+      - ./reports:/home/docker-jenkins-test/target/
+#      - '${PWD}/target:/home/docker-jenkins-test/target/'
+#      - '.:/home/docker-jenkins-test/target/'
+#      - type: volume
+#        source: reports-api-volume
+#        target: /home/docker-jenkins-test/target/
+#      - type: bind
+#        source: "$(pwd)"
+#        target: /home/docker-jenkins-test/target/
+    environment:
+      - TYPE="@API"
+    entrypoint: ./runner-api.sh
+
+#Version 2 - test passed, no reports
+#  api-test-service:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    networks:
+#      - rest
+#    volumes:
+#      - reports-api-volume:/docker-jenkins-test/target
+#    environment:
+#      - TYPE="@API"
+#    entrypoint: ./runner-api.sh
+
+# Version 3 - issue - reports-api-volume is populated but cannot copy stuff from volume to workspace
+#  api-test-service:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    container_name: api-test-container
+#    networks:
+#      - rest
+#    volumes:
+#      - reports-api-volume:/home/docker-jenkins-test/target/
+#    environment:
+#      - TYPE="@API"
+#    entrypoint: ./runner-api.sh
+
+# Version 4 - try reuseNode
+#  api-test-service:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    container_name: api-test-container
+#    networks:
+#      - rest
+#    volumes:
+#      - reports-api-volume:/home/docker-jenkins-test/target/
+#    environment:
+#      - TYPE="@API"
+#    entrypoint: ./runner-api.sh
+
+
+
+# Version 1
+#  api-test-service:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#      args:
+#        - "-v $HOME/.m2:/root/.m2"
+#    entrypoint: ./runner-api.sh
+#    networks:
+#      - rest
+#    volumes:
+#      - reports-api-volume:/home/docker-jenkins-test/target/
+#    #environment:
+#    #  - TYPE="@API"

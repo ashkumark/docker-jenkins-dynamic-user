@@ -1,0 +1,189 @@
+pipeline {
+	 agent any
+	//agent { label 'jenkins-agent' }
+	//agent { dockerfile true }
+	environment {
+		//dockerImage = ''
+        currentWorkspace = ''
+        //CID = ''
+	}
+
+    options {
+        timeout(time: 10, unit: 'MINUTES')
+    }
+	
+	stages {
+        stage('Check tooling versions') {
+            steps {
+                script {
+                    currentWorkspace = "$WORKSPACE"
+                    echo "Current workspace is ${currentWorkspace}"
+                }
+                echo "Check Docker version.."
+                sh '''
+                  docker version
+                  docker info
+                  docker-compose version
+                '''
+            }
+        }
+
+        stage('Docker System Prune') {
+            steps {
+                sh 'docker system prune -a --volumes -f'
+                sh 'docker ps'
+            }
+        }
+
+        stage('Start docker-compose') {
+            // version 2 - reuseNode - WIP
+/*            agent {
+                dockerfile {
+                    filename 'Dockerfile'
+                    additionalBuildArgs  '--tag api-repo:$BRANCH_NAME'
+                    args '-v $HOME/.m2:/root/.m2'
+                    args '-v $WORKSPACE:/home/docker-jenkins-test/ -w /home/docker-jenkins-test/'
+                    reuseNode true
+                }
+            }*/
+            steps {
+                echo "Current workspace is ${currentWorkspace}"
+                echo "Check permissions 1"
+                sh 'ls -lrt'
+                sh 'whoami'
+                sh 'mkdir -p reports'
+                //sh 'mkdir -p target && chown -R jenkins:jenkins target && chmod -R ug+rwx target'
+                sh 'ls -lrt'
+
+                sh 'docker-compose -f docker-compose-api.yaml up -d --no-color'
+                //sh 'sleep 120s'
+
+                echo "Current workspace is ${currentWorkspace}"
+                echo "Check permissions 2"
+                sh 'ls -lrt'
+                sh 'whoami'
+                sh 'docker-compose ps'
+            }
+        }
+
+        stage('API Automation') {
+            steps {
+                echo "Check permissions in api automation stage"
+                echo "Current workspace is ${currentWorkspace}"
+
+                sh 'docker-compose -f docker-compose-api.yaml run -e TYPE="@API" api-test-service'
+
+                echo 'Check permissions 3'
+                echo "Current workspace is ${currentWorkspace}"
+                sh 'ls -lrt'
+                sh 'whoami'
+                sh 'docker-compose ps'
+            }
+        }
+
+        stage('Generate HTML reports') {
+            steps {
+/*                // https://stackoverflow.com/questions/22049212/copying-files-from-docker-container-to-host
+                echo 'Copy artifacts from docker container to workspace'
+                script {
+                    CID = sh '$(docker run -d -v reports-api-volume:/reports-api-volume busybox true)'
+                    echo "CID is ${CID}"
+                }
+                sh 'mkdir -p $WORKSPACE/reports/'
+                sh 'docker cp ${CID}:/* $WORKSPACE/reports/'*/
+
+                echo 'Check permissions 4'
+                echo "Current workspace is ${currentWorkspace}"
+                sh 'ls -lrt'
+                sh 'whoami'
+                sh 'docker ps'
+                cucumber buildStatus: '',
+                        reportTitle: 'Cucumber report',
+                        fileIncludePattern: '**/*.json',
+                        //jsonReportDirectory: "./target",
+                        //jsonReportDirectory: "${currentWorkspace}/target",
+                        jsonReportDirectory: "reports",
+                        //jsonReportDirectory: "/home/docker-jenkins-test/target/",
+                        //jsonReportDirectory: "/var/jenkins_home/workspace/reports/target/Reports/",
+                        trendsLimit: 10,
+                        classifications: [
+                                [
+                                        'key'  : 'API',
+                                        'value': 'API'
+                                ]
+                        ]
+
+                // publish html
+                publishHTML target: [
+                        allowMissing         : false,
+                        alwaysLinkToLastBuild: false,
+                        keepAll              : true,
+                        reportDir: "reports/Reports/",
+                        //reportDir: "${currentWorkspace}/target/Reports/",
+                        //reportDir            : "/home/docker-jenkins-test/target/Reports/",
+                        //reportDir            : "/var/jenkins_home/workspace/reports/target/Reports/",
+                        reportFiles          : 'automated-test-report.html',
+                        reportName           : 'Extent Test Report'
+                ]
+
+                /*publishHTML target: [
+                        allowMissing         : false,
+                        alwaysLinkToLastBuild: false,
+                        keepAll              : true,
+                        reportDir            : "/home/docker-jenkins-test/target/cucumber-html-report/",
+                        reportFiles          : 'regression-tests.html',
+                        reportName           : 'Cucumber Test Report'
+                ]*/
+            }
+        }
+    }
+		/*stage('Docker Teardown') {
+			steps {
+				*//* Tear down docker compose *//*
+				sh 'docker-compose down'
+				
+                *//* Tear down all containers *//*
+                sh 'docker-compose rm -sf'
+			}
+		}*/
+
+
+	/*post {
+        always {
+        // publish html reports
+        publishHTML target: [
+                allowMissing: false,
+                alwaysLinkToLastBuild: false,
+                keepAll: true,
+                // reportDir: "${basedir}/target/Reports/",
+                reportDir: "target/Reports/",
+                reportFiles: 'automated-test-report.html',
+                reportName: 'Extent Test Report'
+        ]
+        publishHTML target: [
+                allowMissing: false,
+                alwaysLinkToLastBuild: false,
+                keepAll: true,
+                reportDir: "target/cucumber-html-report/",
+                reportFiles: 'regression-tests.html',
+                reportName: 'Cucumber Test Report'
+        ]
+
+            sh 'docker-compose down --remove-orphans -v'
+            sh 'docker-compose ps'
+            //cleanWs()
+        }
+    }
+*/
+
+}
+
+
+
+
+
+
+
+
+
+
