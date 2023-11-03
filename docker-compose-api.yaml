@@ -12,7 +12,7 @@ services:
   api-test-service:
     build:
       context: .
-      dockerfile: Dockerfile2
+      dockerfile: Dockerfile
     container_name: api-test-container
     networks:
       - rest
