@@ -3,17 +3,17 @@ FROM ubuntu:latest
 #ARG GID
 #ARG UID
 #
-#ENV GROUP_ID=$GID
-#ENV USER_ID=$UID
+ENV GROUP_ID=1001
+ENV USER_ID=1001
 ENV USERNAME=jenkins
 #
 RUN mkdir /home/$USERNAME
 
 USER root
 
-#RUN groupadd -g $GROUP_ID $USERNAME
-#RUN useradd -r -u $USER_ID -g $GROUP_ID -d /home/$USERNAME $USERNAME
-#RUN chown $USERNAME:$USERNAME /home/$USERNAME
+RUN groupadd -g $GROUP_ID $USERNAME
+RUN useradd -r -u $USER_ID -g $GROUP_ID -d /home/$USERNAME $USERNAME
+RUN chown $USERNAME:$USERNAME /home/$USERNAME
 
 #Basic Utils
 RUN apt-get update

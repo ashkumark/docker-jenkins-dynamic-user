@@ -1,9 +1,9 @@
-def JENKINS_USER_ID
+/*def JENKINS_USER_ID
 def JENKINS_GROUP_ID
 node {
     JENKINS_USER_ID = sh(returnStdout: true, script: 'id -u').trim()
     JENKINS_GROUP_ID = sh(returnStdout: true, script: 'id -g').trim()
-}
+}*/
 
 pipeline {
     agent any
@@ -31,17 +31,17 @@ pipeline {
             agent {
                 dockerfile {
                     filename 'Dockerfile'
-                    additionalBuildArgs '''\
+/*                    additionalBuildArgs '''\
                         --build-arg GID=$JENKINS_USER_ID \
                         --build-arg UID=$JENKINS_GROUP_ID \
-                        '''
+                        '''*/
                     reuseNode true
                 }
             }
             steps {
-                //echo "${JENKINS_USER_NAME}"
+/*                //echo "${JENKINS_USER_NAME}"
                 echo "${JENKINS_USER_ID}"
-                echo "${JENKINS_GROUP_ID}"
+                echo "${JENKINS_GROUP_ID}"*/
 
                 script {
                     currentWorkspace = "$WORKSPACE"
