@@ -59,6 +59,8 @@ RUN usermod -aG sudo $USERNAME
 RUN chown -R $USERNAME:$USERNAME /usr/local/bin/docker-compose
 RUN chmod -R ug+rwx /usr/local/bin/docker-compose
 RUN ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+RUN chown -R $USERNAME:$USERNAME /usr/bin/docker-compose
+RUN chmod -R ug+rwx /usr/bin/docker-compose
 
 #RUN chown -R "$USER_ID":"$USER_ID" /var/run/docker.sock \
 #RUN chown -R "$USER_ID":"$USER_ID" $HOME/.docker \
