@@ -11,6 +11,9 @@ RUN mkdir /home/$USERNAME
 
 USER root
 
+# Create a runner script for the entrypoint (used in docker-compose)
+RUN chmod +x ./runner-api.sh
+
 RUN groupadd -g $GROUP_ID $USERNAME
 RUN useradd -r -u $USER_ID -g $GROUP_ID -d /home/$USERNAME $USERNAME
 RUN chown $USERNAME:$USERNAME /home/$USERNAME
@@ -56,4 +59,4 @@ USER $USERNAME
 WORKDIR /home/$USERNAME
 COPY src /home/$USERNAME/src
 COPY pom.xml /home/$USERNAME
-
+COPY runner-api.sh  /home/$USERNAME
