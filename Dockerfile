@@ -68,4 +68,7 @@ RUN chown -R $USERNAME:$USERNAME /home/$USERNAME
 RUN chmod -R ug+rwx /home/$USERNAME
 RUN mkdir -p target && chown -R $USERNAME:$USERNAME target && chmod -R ug+rwx target
 
+RUN chown -R $USERNAME:$USERNAME /var/jenkins_home
+RUN chmod -R ug+rwx /var/jenkins_home
+
 USER $USERNAME
