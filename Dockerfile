@@ -17,7 +17,7 @@ RUN chown $USERNAME:$USERNAME /home/$USERNAME
 
 #Basic Utils
 RUN apt-get update
-RUN apt-get install -y wget curl jq unzip sudo tar acl --no-install-recommends
+RUN apt-get install -y wget curl jq unzip sudo tar acl apt-transport-https ca-certificates software-properties-common --no-install-recommends
 
 #Maven
 ENV MAVEN_VERSION 3.9.5
@@ -31,12 +31,12 @@ RUN rm -f apache-maven-${MAVEN_VERSION}-bin.tar.gz
 ENV DOCKER_CHANNEL stable
 ENV DOCKER_VERSION 23.0.6
 ENV DOCKER_API_VERSION 1.42
-RUN curl -k -fsSL "https://download.docker.com/linux/static/${DOCKER_CHANNEL}/x86_64/docker-${DOCKER_VERSION}.tgz" \
+RUN curl -fsSL "https://download.docker.com/linux/static/${DOCKER_CHANNEL}/x86_64/docker-${DOCKER_VERSION}.tgz" \
   | tar -xzC /usr/local/bin --strip=1 docker/docker
 
 #Docker compose - https://docs.docker.com/compose/release-notes/
 ENV DOCKER_COMPOSE_VERSION v2.22.0
-RUN curl -k -fsSL "https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-linux-x86_64" \
+RUN curl -fsSL "https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-linux-x86_64" \
     -o /usr/local/bin/docker-compose
 
 #RUN curl -fsSL "https://sourceforge.net/projects/docker-compose.mirror/files/${DOCKER_COMPOSE_VERSION}/docker-compose-linux-x86_64/download"  \
