@@ -32,8 +32,8 @@ pipeline {
                 dockerfile {
                     filename 'Dockerfile'
                     additionalBuildArgs '''\
-                        --build-arg GID=0 \
-                        --build-arg UID=0 \
+                        --build-arg GID=$JENKINS_USER_ID \
+                        --build-arg UID=$JENKINS_GROUP_ID \
                         '''
                     reuseNode true
                 }
@@ -51,7 +51,7 @@ pipeline {
                 sh '''
 				  echo "Check permissions 1"
 				  sh 'ls -lrt'
-				  sh 'whoami'
+				  docker version
                 '''
             }
         }
