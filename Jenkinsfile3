@@ -24,6 +24,7 @@ pipeline {
                 sh '''#!/bin/bash
                   docker version
                   docker info
+                  docker-compose version
                 '''
             }
         }
