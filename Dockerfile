@@ -48,9 +48,9 @@ RUN groupadd docker
 RUN usermod -aG docker $USERNAME
 RUN usermod -aG sudo $USERNAME
 
-RUN chown -R "$USER_ID":"$USER_ID" /var/run/docker.sock \
-RUN chown -R "$USER_ID":"$USER_ID" $HOME/.docker \
-RUN chmod -R g+rw "$HOME/.docker"
+#RUN chown -R "$USER_ID":"$USER_ID" /var/run/docker.sock \
+#RUN chown -R "$USER_ID":"$USER_ID" $HOME/.docker \
+#RUN chmod -R g+rw "$HOME/.docker"
 
 USER $USERNAME
 WORKDIR /home/$USERNAME
