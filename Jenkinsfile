@@ -40,7 +40,7 @@ pipeline {
                     echo "Current workspace is ${currentWorkspace}"
                 }
                 echo "Check Docker version.."
-                sh '''
+                sh '''#!/bin/bash
 				  echo "Check permissions 1"
 				  sh 'ls -lrt'
 				  docker version
