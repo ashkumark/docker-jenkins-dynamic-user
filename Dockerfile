@@ -9,6 +9,11 @@ ENV USERNAME=jenkins
 #
 RUN mkdir /home/$USERNAME
 
+WORKDIR /home/$USERNAME
+COPY src /home/$USERNAME/src
+COPY pom.xml /home/$USERNAME
+COPY runner-api.sh /home/$USERNAME
+
 USER root
 
 # Create a runner script for the entrypoint (used in docker-compose)
@@ -58,11 +63,6 @@ RUN ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 #RUN chown -R "$USER_ID":"$USER_ID" /var/run/docker.sock \
 #RUN chown -R "$USER_ID":"$USER_ID" $HOME/.docker \
 #RUN chmod -R g+rw "$HOME/.docker"
-
-WORKDIR /home/$USERNAME
-COPY src /home/$USERNAME/src
-COPY pom.xml /home/$USERNAME
-COPY runner-api.sh /home/$USERNAME
 
 RUN chown -R $USERNAME:$USERNAME /home/$USERNAME
 RUN chmod -R ug+rwx /home/$USERNAME
