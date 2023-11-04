@@ -18,7 +18,7 @@ USER root
 
 #Jenkins user and permissions
 RUN groupadd -g $GROUP_ID $USERNAME
-RUN useradd -r -u $USER_ID -g $GROUP_ID -d /home/$USERNAME $USERNAME
+RUN useradd -r -u $USER_ID -g $USERNAME -d /home/$USERNAME $USERNAME
 RUN chown -R $USERNAME:$USERNAME /home/$USERNAME
 RUN chmod -R ug+rwx /home/$USERNAME
 #RUN mkdir -p /var/jenkins_home
