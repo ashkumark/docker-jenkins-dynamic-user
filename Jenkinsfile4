@@ -25,7 +25,7 @@ pipeline {
               }
         }
 
-        stage('Build') {
+        stage('Build and compose') {
             agent {
                 dockerfile {
                     filename 'Dockerfile'
@@ -42,11 +42,8 @@ pipeline {
                       echo "Check permissions 1"
                       ls -lrt
                       docker version
-                      docker-compose version
-  
+                      docker-compose version  
                 '''
-            }
-            steps {
                 sh 'docker-compose -f docker-compose-api.yaml up -d --no-color'
                 sh 'docker-compose ps'
             }
