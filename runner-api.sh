@@ -1,5 +1,6 @@
 #!/bin/sh
 
+whoami
 mkdir -p target && chown -R jenkins:jenkins target && chmod -R ug+rwx target
 
 #version 1
@@ -14,9 +15,9 @@ sleep 3s
 echo "Check permissions in runner"
 pwd
 ls -lrt
-whoami
-cd target/
-ls -lrt
+
+#cd target/
+#ls -lrt
 
 #version 3
 ##install docker
