@@ -11,9 +11,7 @@ pipeline {
     }
 	
 	stages {
-
-        // non-root user will not have access to docker socket until the image is built/container run
-        stage("Check Docker version") {
+        /*stage("Check Docker version") {
             steps {
                 sh '''
                   docker version
@@ -22,7 +20,7 @@ pipeline {
                 '''
             }
         }
-
+*/
         stage('Docker System Prune') {
             steps {
                 sh 'docker system prune -a --volumes -f'
