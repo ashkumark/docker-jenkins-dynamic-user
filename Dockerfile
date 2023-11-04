@@ -67,7 +67,7 @@ RUN curl -k -fsSL "https://github.com/docker/compose/releases/download/${DOCKER_
 #    -o /usr/local/bin/docker-compose
 
 RUN chmod ug+x /usr/local/bin/docker-compose
-#RUN ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+RUN ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 
 #RUN chown -R $USERNAME:$USERNAME /usr/local/bin/docker-compose
 #RUN chmod -R ug+rwx /usr/local/bin/docker-compose
