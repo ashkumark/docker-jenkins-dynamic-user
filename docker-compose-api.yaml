@@ -13,6 +13,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    user: jenkins
     container_name: api-test-container
     networks:
       - rest
