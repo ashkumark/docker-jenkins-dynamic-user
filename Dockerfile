@@ -59,19 +59,19 @@ RUN usermod -aG docker $USERNAME
 RUN usermod -aG sudo $USERNAME
 
 #Docker compose - https://docs.docker.com/compose/release-notes/
-ENV DOCKER_COMPOSE_VERSION v2.22.0
+ENV DOCKER_COMPOSE_VERSION v2.23.0
 RUN curl -k -fsSL "https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-linux-x86_64" \
     -o /usr/local/bin/docker-compose
 
 #RUN curl -fsSL "https://sourceforge.net/projects/docker-compose.mirror/files/${DOCKER_COMPOSE_VERSION}/docker-compose-linux-x86_64/download"  \
 #    -o /usr/local/bin/docker-compose
 
-RUN chmod -R ug+rwx /usr/local/bin/docker-compose
-RUN ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+RUN chmod ug+x /usr/local/bin/docker-compose
+#RUN ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 
-RUN chown -R $USERNAME:$USERNAME /usr/local/bin/docker-compose
-RUN chmod -R ug+rwx /usr/local/bin/docker-compose
-RUN chown -R $USERNAME:$USERNAME /usr/bin/docker-compose
-RUN chmod -R ug+rwx /usr/bin/docker-compose
+#RUN chown -R $USERNAME:$USERNAME /usr/local/bin/docker-compose
+#RUN chmod -R ug+rwx /usr/local/bin/docker-compose
+#RUN chown -R $USERNAME:$USERNAME /usr/bin/docker-compose
+#RUN chmod -R ug+rwx /usr/bin/docker-compose
 
 USER $USERNAME
