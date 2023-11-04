@@ -29,7 +29,8 @@ pipeline {
             agent {
                 dockerfile {
                     filename 'Dockerfile'
-                    label 'api-image'
+                    image "test"
+                    label "api-image"
                     reuseNode true
                 }
             }
