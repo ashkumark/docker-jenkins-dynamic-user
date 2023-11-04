@@ -22,10 +22,9 @@ pipeline {
                 }
                 echo "Check Docker version.."
                 sh '''#!/bin/bash
-                  service docker start
                   docker version
                   docker info
-                  docker-compose version
+                  
                 '''
             }
         }
