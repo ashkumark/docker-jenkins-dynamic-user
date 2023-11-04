@@ -40,6 +40,9 @@ RUN mkdir -p target && chown -R $USERNAME:$USERNAME target && chmod -R ug+rwx ta
 RUN apt-get update
 RUN apt-get install -y wget curl jq unzip sudo tar acl apt-transport-https ca-certificates software-properties-common --no-install-recommends
 
+#Java
+RUN apt-get install -y openjdk-17-jdk
+
 #Maven
 ENV MAVEN_VERSION 3.9.5
 RUN wget --no-check-certificate https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz
