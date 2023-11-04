@@ -29,6 +29,7 @@ pipeline {
             agent {
                 dockerfile {
                     filename 'Dockerfile'
+                    label 'api-image'
                     reuseNode true
                 }
             }
@@ -57,6 +58,7 @@ pipeline {
 		}*/
 
         stage('API Automation') {
+            agent { label 'api-image' }
             steps {
                 script {
                     currentWorkspace = "$WORKSPACE"
