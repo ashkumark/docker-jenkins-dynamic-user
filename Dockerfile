@@ -24,6 +24,7 @@ RUN groupadd -g $GROUP_ID $USERNAME
 RUN useradd -r -u $USER_ID -g $GROUP_ID -d /home/$USERNAME $USERNAME
 RUN chown -R $USERNAME:$USERNAME /home/$USERNAME
 RUN chmod -R ug+rwx /home/$USERNAME
+RUN mkdir -p /var/jenkins_home
 RUN chown -R $USERNAME:$USERNAME /var/jenkins_home
 RUN chmod -R ug+rwx /var/jenkins_home
 
