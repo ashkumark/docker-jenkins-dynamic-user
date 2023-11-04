@@ -12,6 +12,7 @@ pipeline {
 	
 	stages {
 
+        // non-root user will not have access to docker socket until the image is built/container run
         stage("Check Docker version") {
             steps {
                 sh '''
@@ -29,21 +30,17 @@ pipeline {
         }
 
 
-        /*stage('Build') {
+        stage('Build') {
             agent {
                 dockerfile {
                     filename 'Dockerfile'
-*//*                    additionalBuildArgs '''\
-                        --build-arg GID=$JENKINS_USER_ID \
-                        --build-arg UID=$JENKINS_GROUP_ID \
-                        '''*//*
                     //reuseNode true
                 }
             }
             steps {
-*//*                //echo "${JENKINS_USER_NAME}"
+                //echo "${JENKINS_USER_NAME}"
                 echo "${JENKINS_USER_ID}"
-                echo "${JENKINS_GROUP_ID}"*//*
+                echo "${JENKINS_GROUP_ID}"
 
                 script {
                     currentWorkspace = "$WORKSPACE"
@@ -58,7 +55,7 @@ pipeline {
   
                 '''
             }
-        }*/
+        }
 
 /*        stage('Docker System Prune') {
             steps {
