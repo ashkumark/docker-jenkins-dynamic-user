@@ -19,9 +19,12 @@ USER root
 # Create a runner script for the entrypoint (used in docker-compose)
 RUN chmod +x ./runner-api.sh
 
+#Jenkins user and permissions
 RUN groupadd -g $GROUP_ID $USERNAME
 RUN useradd -r -u $USER_ID -g $GROUP_ID -d /home/$USERNAME $USERNAME
-RUN chown $USERNAME:$USERNAME /home/$USERNAME
+RUN chown -R $USERNAME:$USERNAME /home/$USERNAME
+RUN chmod -R ug+rwx /home/$USERNAME
+RUN mkdir -p target && chown -R $USERNAME:$USERNAME target && chmod -R ug+rwx target
 
 #Basic Utils
 RUN apt-get update
@@ -51,6 +54,7 @@ RUN curl -k -fsSL "https://github.com/docker/compose/releases/download/${DOCKER_
 #    -o /usr/local/bin/docker-compose
 
 RUN chmod +x /usr/local/bin/docker-compose
+RUN ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 
 RUN groupadd docker
 RUN usermod -aG docker $USERNAME
@@ -58,17 +62,12 @@ RUN usermod -aG sudo $USERNAME
 
 RUN chown -R $USERNAME:$USERNAME /usr/local/bin/docker-compose
 RUN chmod -R ug+rwx /usr/local/bin/docker-compose
-RUN ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 RUN chown -R $USERNAME:$USERNAME /usr/bin/docker-compose
 RUN chmod -R ug+rwx /usr/bin/docker-compose
 
 #RUN chown -R "$USER_ID":"$USER_ID" /var/run/docker.sock \
 #RUN chown -R "$USER_ID":"$USER_ID" $HOME/.docker \
 #RUN chmod -R g+rw "$HOME/.docker"
-
-RUN chown -R $USERNAME:$USERNAME /home/$USERNAME
-RUN chmod -R ug+rwx /home/$USERNAME
-RUN mkdir -p target && chown -R $USERNAME:$USERNAME target && chmod -R ug+rwx target
 
 RUN chown -R $USERNAME:$USERNAME /var/jenkins_home
 RUN chmod -R ug+rwx /var/jenkins_home
