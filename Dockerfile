@@ -16,10 +16,6 @@ COPY runner-api.sh /home/$USERNAME
 
 USER root
 
-# Create a runner script for the entrypoint (used in docker-compose)
-RUN chown -R $USERNAME:$USERNAME ./runner-api.sh
-RUN chmod ug+x ./runner-api.sh
-
 #Jenkins user and permissions
 RUN groupadd -g $GROUP_ID $USERNAME
 RUN useradd -r -u $USER_ID -g $GROUP_ID -d /home/$USERNAME $USERNAME
@@ -35,6 +31,9 @@ RUN chmod -R ug+rwx /home/$USERNAME
 #RUN chown -R "$USERNAME":"$USERNAME" /home/"$USERNAME"/.docker \
 #RUN chmod -R ug+rwx "$HOME/.docker"
 
+# Create a runner script for the entrypoint (used in docker-compose)
+RUN chown -R $USERNAME:$USERNAME ./runner-api.sh
+RUN chmod ug+x ./runner-api.sh
 RUN mkdir -p target && chown -R $USERNAME:$USERNAME target && chmod -R ug+rwx target
 
 #Basic Utils
