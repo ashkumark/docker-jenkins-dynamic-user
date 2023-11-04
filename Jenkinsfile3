@@ -5,7 +5,6 @@ pipeline {
 	environment {
 		//dockerImage = ''
         currentWorkspace = ''
-        DOCKER_COMPOSE_VERSION = 'v2.22.0'
         //CID = ''
 	}
 
@@ -14,21 +13,29 @@ pipeline {
     }
 	
 	stages {
-        stage('Build') {
+
+        stage('Docker System Prune') {
+            steps {
+                sh 'docker system prune -a --volumes -f'
+            }
+        }
+
+
+        /*stage('Build') {
             agent {
                 dockerfile {
                     filename 'Dockerfile'
-/*                    additionalBuildArgs '''\
+*//*                    additionalBuildArgs '''\
                         --build-arg GID=$JENKINS_USER_ID \
                         --build-arg UID=$JENKINS_GROUP_ID \
-                        '''*/
-                    reuseNode true
+                        '''*//*
+                    //reuseNode true
                 }
             }
             steps {
-/*                //echo "${JENKINS_USER_NAME}"
+*//*                //echo "${JENKINS_USER_NAME}"
                 echo "${JENKINS_USER_ID}"
-                echo "${JENKINS_GROUP_ID}"*/
+                echo "${JENKINS_GROUP_ID}"*//*
 
                 script {
                     currentWorkspace = "$WORKSPACE"
@@ -40,10 +47,10 @@ pipeline {
                       ls -lrt
                       docker version
                       docker-compose version
-                      docker-compose -f docker-compose-api.yaml up -d --no-color
+  
                 '''
             }
-        }
+        }*/
 
 /*        stage('Docker System Prune') {
             steps {
