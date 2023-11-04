@@ -65,6 +65,7 @@ RUN chmod -R ug+rwx /usr/local/bin/docker-compose
 RUN chown -R $USERNAME:$USERNAME /usr/bin/docker-compose
 RUN chmod -R ug+rwx /usr/bin/docker-compose
 
+#permission to connect to the Docker daemon socket
 RUN chown -R "$USER_ID":"$USER_ID" /var/run/docker.sock \
 RUN chown -R "$USER_ID":"$USER_ID" $HOME/.docker \
 RUN chmod -R g+rw "$HOME/.docker"
