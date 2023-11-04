@@ -40,6 +40,7 @@ pipeline {
                       ls -lrt
                       docker version
                       docker-compose version
+                      docker-compose -f docker-compose-api.yaml up -d --no-color
                 '''
             }
         }
@@ -64,7 +65,7 @@ pipeline {
             }*/
             steps {
                 echo "Current workspace is ${currentWorkspace}"
-                echo "Check permissions 1"
+                echo "Check permissions 2"
                 sh 'ls -lrt'
                 sh 'mkdir -p reports'
                 //sh 'mkdir -p target && chown -R jenkins:jenkins target && chmod -R ug+rwx target'
