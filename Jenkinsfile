@@ -44,6 +44,7 @@ pipeline {
                       echo "Check permissions 1"
                       ls -lrt
                       docker version
+                      docker-compose version
                 '''
             }
         }
