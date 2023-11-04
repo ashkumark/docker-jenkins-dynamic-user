@@ -28,8 +28,8 @@ RUN chown -R $USERNAME:$USERNAME /var/jenkins_home
 RUN chmod -R ug+rwx /var/jenkins_home
 
 #permission to connect to the Docker daemon socket
-RUN chown -R "$USER_ID":"$USER_ID" /var/run/docker.sock \
-RUN chown -R "$USER_ID":"$USER_ID" $HOME/.docker \
+RUN chown -R "$USERNAME":"$USERNAME" /var/run/docker.sock \
+RUN chown -R "$USERNAME":"$USERNAME" $HOME/.docker \
 RUN chmod -R ug+rwx "$HOME/.docker"
 
 RUN mkdir -p target && chown -R $USERNAME:$USERNAME target && chmod -R ug+rwx target
@@ -65,7 +65,7 @@ RUN curl -k -fsSL "https://github.com/docker/compose/releases/download/${DOCKER_
 #RUN curl -fsSL "https://sourceforge.net/projects/docker-compose.mirror/files/${DOCKER_COMPOSE_VERSION}/docker-compose-linux-x86_64/download"  \
 #    -o /usr/local/bin/docker-compose
 
-RUN chmod +x /usr/local/bin/docker-compose
+RUN chmod -R ug+rwx /usr/local/bin/docker-compose
 RUN ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 
 RUN chown -R $USERNAME:$USERNAME /usr/local/bin/docker-compose
