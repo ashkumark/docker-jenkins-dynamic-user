@@ -3,9 +3,7 @@ pipeline {
 	//agent { label 'jenkins-agent' }
 	//agent { dockerfile true }
 	environment {
-		//dockerImage = ''
         currentWorkspace = ''
-        //CID = ''
 	}
 
     options {
@@ -13,6 +11,16 @@ pipeline {
     }
 	
 	stages {
+
+        stage("Check Docker version") {
+            steps {
+                sh '''
+                  docker version
+                  docker info
+                  docker-compose version
+                '''
+            }
+        }
 
         stage('Docker System Prune') {
             steps {
@@ -71,38 +79,35 @@ pipeline {
                 }
             }*/
             steps {
-                //echo "Current workspace is ${currentWorkspace}"
-                echo "Check permissions 2"
-                sh 'ls -lrt'
-                sh 'mkdir -p reports'
-                //sh 'mkdir -p target && chown -R jenkins:jenkins target && chmod -R ug+rwx target'
-                sh 'ls -lrt'
-
-                sh 'docker-compose -f docker-compose-api.yaml up -d --no-color'
-                //sh 'sleep 120s'
-
                 script {
                     currentWorkspace = "$WORKSPACE"
                     echo "Current workspace is ${currentWorkspace}"
                 }
                 //echo "Current workspace is ${currentWorkspace}"
+                echo "Check permissions 1"
+                sh 'ls -lrt'
+                //sh 'mkdir -p reports'
+                //sh 'mkdir -p target && chown -R jenkins:jenkins target && chmod -R ug+rwx target'
+                sh 'ls -lrt'
+
+                sh 'docker-compose -f docker-compose-api.yaml up -d --no-color'
+                sh 'docker-compose ps'
+                //sh 'sleep 120s'
+
+                //echo "Current workspace is ${currentWorkspace}"
                 echo "Check permissions 2"
                 sh 'ls -lrt'
-                sh 'docker-compose ps'
+
             }
         }
 
         stage('API Automation') {
             steps {
-                echo "Check permissions in api automation stage"
-                echo "Current workspace is ${currentWorkspace}"
-
+                script {
+                    currentWorkspace = "$WORKSPACE"
+                    echo "Current workspace is ${currentWorkspace}"
+                }
                 sh 'docker-compose -f docker-compose-api.yaml run -e TYPE="@API" api-test-service'
-
-                echo 'Check permissions 3'
-                echo "Current workspace is ${currentWorkspace}"
-                sh 'ls -lrt'
-                sh 'docker-compose ps'
             }
         }
 
@@ -161,15 +166,16 @@ pipeline {
             }
         }
     }
-		/*stage('Docker Teardown') {
-			steps {
-				*//* Tear down docker compose *//*
-				sh 'docker-compose down'
-				
-                *//* Tear down all containers *//*
-                sh 'docker-compose rm -sf'
-			}
-		}*/
+
+    stage('Docker Teardown') {
+        steps {
+            /* Tear down docker compose */
+            sh 'docker-compose down'
+
+            /* Tear down all containers */
+            sh 'docker-compose rm -sf'
+        }
+    }
 
 
 	/*post {

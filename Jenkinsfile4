@@ -1,0 +1,110 @@
+pipeline {
+	 agent any
+	//agent { label 'jenkins-agent' }
+	//agent { dockerfile true }
+	environment {
+		dockerImage = ''
+		currentWorkspace = ''
+	}
+
+    options {
+        timeout(time: 10, unit: 'MINUTES')
+    }
+	
+	stages {
+        stage("Check Docker version") {
+              steps {
+                sh '''
+                  docker version
+                  docker info
+                  docker-compose version
+                '''
+              }
+        }
+
+        stage('Docker System Prune') {
+              steps {
+                sh 'docker system prune -a --volumes -f'
+              }
+        }
+
+		stage('Start docker-compose') {
+			steps {
+				sh 'docker-compose -f docker-compose-api.yaml up -d --no-color'
+				sh 'docker-compose ps'
+			}
+		}
+
+        stage('API Automation') {
+            steps {
+                script {
+                    currentWorkspace = "$WORKSPACE"
+                    echo "Current workspace is ${currentWorkspace}"
+                }
+                sh 'docker-compose -f docker-compose-api.yaml run -e TYPE="@API" api-test-service'
+            }
+        }
+
+        stage('Generate HTML report') {
+            steps {
+                cucumber buildStatus: '',
+                        reportTitle: 'Cucumber report',
+                        fileIncludePattern: '**/*.json',
+                        jsonReportDirectory: "${currentWorkspace}/target",
+                        trendsLimit: 10,
+                        classifications: [
+                                [
+                                        'key'  : 'API',
+                                        'value': 'API'
+                                ]
+                        ]
+            }
+        }
+		
+		stage('Docker Teardown') {
+			steps {
+				/* Tear down docker compose */
+				sh 'docker-compose down'
+				
+                /* Tear down all containers */
+                sh 'docker-compose rm -sf'
+			}
+		}
+	}
+
+	post {
+        always {
+        // publish html reports
+        publishHTML target: [
+                allowMissing: false,
+                alwaysLinkToLastBuild: false,
+                keepAll: true,
+                reportDir: "${currentWorkspace}/target/Reports/",
+                reportFiles: 'automated-test-report.html',
+                reportName: 'Extent Test Report'
+        ]
+        publishHTML target: [
+                allowMissing: false,
+                alwaysLinkToLastBuild: false,
+                keepAll: true,
+                reportDir: "${currentWorkspace}/target/cucumber-html-report/",
+                reportFiles: 'regression-tests.html',
+                reportName: 'Cucumber Test Report'
+        ]
+
+            sh 'docker-compose down --remove-orphans -v'
+            sh 'docker-compose ps'
+            //cleanWs()
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
