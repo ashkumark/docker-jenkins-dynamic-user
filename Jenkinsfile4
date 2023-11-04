@@ -30,7 +30,7 @@ pipeline {
                 dockerfile {
                     filename 'Dockerfile'
                     label "api-image"
-                    reuseNode true
+                    //reuseNode true
                 }
             }
             steps {
@@ -58,6 +58,13 @@ pipeline {
 		}*/
 
         stage('API Automation') {
+            agent {
+                dockerfile {
+                    filename 'Dockerfile'
+                    label "api-image"
+                    reuseNode true
+                }
+            }
             //agent { label "api-image" }
             steps {
                 script {
