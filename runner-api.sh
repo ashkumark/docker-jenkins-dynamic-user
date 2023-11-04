@@ -1,5 +1,7 @@
 #!/bin/sh
 
+mkdir -p target && chown -R jenkins:jenkins target && chmod -R ug+rwx target
+
 #version 1
 echo "Run automated API tests (using runner script)..."
 #mvn -f pom.xml test -Dtest=TestRunner -Dcucumber.filter.tags=$TYPE
