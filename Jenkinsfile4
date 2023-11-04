@@ -63,7 +63,7 @@ pipeline {
                 dockerfile {
                     filename 'Dockerfile'
                     label "master"
-                    //reuseNode true
+                    reuseNode true
                 }
             }
             //agent { label "api-image" }
