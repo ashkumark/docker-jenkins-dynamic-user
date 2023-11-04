@@ -20,6 +20,7 @@ services:
     environment:
       - TYPE="@API"
     entrypoint: ./runner-api.sh
+    user: jenkins
 
   # Version 5 - try multiple volumes (bind mount / volume mount)
 #  api-test-service:
