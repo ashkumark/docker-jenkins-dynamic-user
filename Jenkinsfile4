@@ -1,9 +1,7 @@
 pipeline {
-	 agent any
-	//agent { label 'jenkins-agent' }
-	//agent { dockerfile true }
+    agent any
+
 	environment {
-		dockerImage = ''
 		currentWorkspace = ''
 	}
 
@@ -17,7 +15,6 @@ pipeline {
                 sh '''
                   docker version
                   docker info
-                  docker-compose version
                 '''
               }
         }
@@ -26,6 +23,29 @@ pipeline {
               steps {
                 sh 'docker system prune -a --volumes -f'
               }
+        }
+
+        stage('Build') {
+            agent {
+                dockerfile {
+                    filename 'Dockerfile'
+                    reuseNode true
+                }
+            }
+            steps {
+                script {
+                    currentWorkspace = "$WORKSPACE"
+                    echo "Current workspace is ${currentWorkspace}"
+                }
+                echo "Check Docker version.."
+                sh '''#!/bin/bash
+                      echo "Check permissions 1"
+                      ls -lrt
+                      docker version
+                      docker-compose version
+  
+                '''
+            }
         }
 
 		stage('Start docker-compose') {
