@@ -28,10 +28,10 @@ RUN chmod -R ug+rwx /home/$USERNAME
 #RUN chmod -R ug+rwx /var/jenkins_home
 
 #permission to connect to the Docker daemon socket
-RUN chown -R "$USERNAME":"$USERNAME" /var/run/docker.sock \
-RUN chmod -R ug+rwx /var/run/docker.sock \
-RUN chown -R "$USERNAME":"$USERNAME" /home/"$USERNAME"/.docker \
-RUN chmod -R ug+rwx "$HOME/.docker"
+#RUN chown -R "$USERNAME":"$USERNAME" /var/run/docker.sock \
+#RUN chmod -R ug+rwx /var/run/docker.sock \
+#RUN chown -R "$USERNAME":"$USERNAME" /home/"$USERNAME"/.docker \
+#RUN chmod -R ug+rwx "$HOME/.docker"
 
 RUN mkdir -p target && chown -R $USERNAME:$USERNAME target && chmod -R ug+rwx target
 
