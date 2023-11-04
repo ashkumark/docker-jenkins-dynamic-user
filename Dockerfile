@@ -24,6 +24,14 @@ RUN groupadd -g $GROUP_ID $USERNAME
 RUN useradd -r -u $USER_ID -g $GROUP_ID -d /home/$USERNAME $USERNAME
 RUN chown -R $USERNAME:$USERNAME /home/$USERNAME
 RUN chmod -R ug+rwx /home/$USERNAME
+RUN chown -R $USERNAME:$USERNAME /var/jenkins_home
+RUN chmod -R ug+rwx /var/jenkins_home
+
+#permission to connect to the Docker daemon socket
+RUN chown -R "$USER_ID":"$USER_ID" /var/run/docker.sock \
+RUN chown -R "$USER_ID":"$USER_ID" $HOME/.docker \
+RUN chmod -R ug+rwx "$HOME/.docker"
+
 RUN mkdir -p target && chown -R $USERNAME:$USERNAME target && chmod -R ug+rwx target
 
 #Basic Utils
@@ -45,6 +53,10 @@ ENV DOCKER_API_VERSION 1.42
 RUN curl -k -fsSL "https://download.docker.com/linux/static/${DOCKER_CHANNEL}/x86_64/docker-${DOCKER_VERSION}.tgz" \
   | tar -xzC /usr/local/bin --strip=1 docker/docker
 
+RUN groupadd docker
+RUN usermod -aG docker $USERNAME
+RUN usermod -aG sudo $USERNAME
+
 #Docker compose - https://docs.docker.com/compose/release-notes/
 ENV DOCKER_COMPOSE_VERSION v2.22.0
 RUN curl -k -fsSL "https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-linux-x86_64" \
@@ -56,21 +68,9 @@ RUN curl -k -fsSL "https://github.com/docker/compose/releases/download/${DOCKER_
 RUN chmod +x /usr/local/bin/docker-compose
 RUN ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 
-RUN groupadd docker
-RUN usermod -aG docker $USERNAME
-RUN usermod -aG sudo $USERNAME
-
 RUN chown -R $USERNAME:$USERNAME /usr/local/bin/docker-compose
 RUN chmod -R ug+rwx /usr/local/bin/docker-compose
 RUN chown -R $USERNAME:$USERNAME /usr/bin/docker-compose
 RUN chmod -R ug+rwx /usr/bin/docker-compose
-
-#permission to connect to the Docker daemon socket
-RUN chown -R "$USER_ID":"$USER_ID" /var/run/docker.sock \
-RUN chown -R "$USER_ID":"$USER_ID" $HOME/.docker \
-RUN chmod -R g+rw "$HOME/.docker"
-
-RUN chown -R $USERNAME:$USERNAME /var/jenkins_home
-RUN chmod -R ug+rwx /var/jenkins_home
 
 USER $USERNAME
