@@ -10,8 +10,7 @@ volumes:
 services:
   # Version 6 -
   api-test-service:
-    labels:
-      - api-image
+    image: api-image
     networks:
       - rest
     volumes:
