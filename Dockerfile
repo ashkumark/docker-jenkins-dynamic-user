@@ -51,6 +51,9 @@ RUN tar -xvzf apache-maven-${MAVEN_VERSION}-bin.tar.gz -C /opt/maven/ --strip-co
 RUN ln -s /opt/maven/bin/mvn /usr/bin/mvn
 RUN rm -f apache-maven-${MAVEN_VERSION}-bin.tar.gz
 
+RUN chown -R $USERNAME:$USERNAME /usr/bin/mvn
+RUN chmod -R ug+rwx /usr/bin/mvn
+
 #Docker - https://docs.docker.com/engine/api/
 ENV DOCKER_CHANNEL stable
 ENV DOCKER_VERSION 23.0.6
