@@ -1,17 +1,19 @@
-def user_id
+/*def user_id
 def group_id
 //def user_name
 node {
     user_id = sh(returnStdout: true, script: 'id -u').trim()
     group_id = sh(returnStdout: true, script: 'id -g').trim()
     //user_name = sh(returnStdout: true, script: 'id -un').trim()
-}
+}*/
 
 pipeline {
     agent any
     //agent { label 'master' }
 
 	environment {
+		JENKINS_USER_ID = "${sh(script:'id -u', returnStdout: true).trim()}"
+		JENKINS_GROUP_ID = "${sh(script:'id -g', returnStdout: true).trim()}"
 		currentWorkspace = ''
 	}
 
@@ -22,12 +24,10 @@ pipeline {
 	stages {
         stage("Check Docker version") {
               steps {
-                  echo 'user_id'
-                  echo user_id
-                  echo 'group_id'
-                  echo group_id
-                  //echo 'user_name'
-                  //echo user_name
+                  echo 'JENKINS_USER_ID'
+                  echo JENKINS_USER_ID
+                  echo 'JENKINS_GROUP_ID'
+                  echo JENKINS_GROUP_ID
                 sh '''
                   docker version
                   docker info
@@ -46,8 +46,8 @@ pipeline {
                 dockerfile {
                     filename 'Dockerfile'
                     additionalBuildArgs '''\
-                        --build-arg UID=$user_id \
-                        --build-arg GID=$group_id \
+                        --build-arg UID=$JENKINS_USER_ID \
+                        --build-arg GID=$JENKINS_GROUP_ID \
                         '''
                     label "master"
                     reuseNode true
