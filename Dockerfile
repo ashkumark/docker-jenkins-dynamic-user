@@ -11,8 +11,8 @@ ARG UID
 
 ARG user=jenkins
 ARG group=jenkins
-ENV uid=$UID
-ENV gid=$GID
+ENV uid=${env.JENKINS_USER_ID}
+ENV gid=${env.JENKINS_GROUP_ID}
 ARG JENKINS_HOME=/home/$user
 
 RUN mkdir -p $JENKINS_HOME

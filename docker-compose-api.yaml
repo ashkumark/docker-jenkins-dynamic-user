@@ -11,8 +11,7 @@ services:
 # Version 7 -
   api-test-service:
     image: docker-jenkins-automation:${env.BUILD_ID}
-
-    #user: "${UID}:${GID}"
+    user: "${env.JENKINS_USER_ID}:${env.JENKINS_GROUP_ID}"
     networks:
       - rest
     volumes:
