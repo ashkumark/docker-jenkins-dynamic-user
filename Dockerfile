@@ -2,10 +2,11 @@ FROM ubuntu:latest
 
 ARG GID
 ARG UID
+ARG UN
 
 ENV GROUP_ID=$GID
 ENV USER_ID=$UID
-ENV USERNAME=jenkins
+ENV USERNAME=$UN
 
 RUN mkdir /home/$USERNAME
 
