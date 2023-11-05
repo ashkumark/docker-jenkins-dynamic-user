@@ -20,6 +20,7 @@ services:
     environment:
       - TYPE="@API"
     entrypoint: ./runner-api.sh
+
 #    env_file:
 #      - .env
 
