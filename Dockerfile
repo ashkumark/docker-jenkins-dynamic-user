@@ -75,6 +75,7 @@ RUN curl -k -fsSL "https://github.com/docker/compose/releases/download/${DOCKER_
 #RUN curl -fsSL "https://sourceforge.net/projects/docker-compose.mirror/files/${DOCKER_COMPOSE_VERSION}/docker-compose-linux-x86_64/download"  \
 #    -o /usr/local/bin/docker-compose
 
+RUN chown -R $USERNAME:$USERNAME /usr/local/bin/docker-compose
 RUN chmod ug+x /usr/local/bin/docker-compose
 #RUN ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 
