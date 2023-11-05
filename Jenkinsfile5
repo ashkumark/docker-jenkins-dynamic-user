@@ -56,25 +56,16 @@ pipeline {
                 script {
                     echo "Current workspace is ${currentWorkspace}"
                 }
-                echo "Check Docker version.."
                 sh '''#!/bin/bash
                       echo "Check permissions 1"
                       ls -lrt
-                      docker version
-                      docker-compose version  
+                      whoami
+                      docker ps 
                 '''
                 sh 'docker-compose -f docker-compose-api.yaml up -d --no-color'
                 sh 'docker-compose -f docker-compose-api.yaml ps'
             }
         }
-
-
-/*		stage('Start docker-compose') {
-			steps {
-				sh 'docker-compose -f docker-compose-api.yaml up -d --no-color'
-				sh 'docker-compose ps'
-			}
-		}*/
 
         stage('API Automation') {
             steps {
@@ -82,6 +73,12 @@ pipeline {
                     currentWorkspace = "$WORKSPACE"
                     echo "Current workspace is ${currentWorkspace}"
                 }
+                sh '''#!/bin/bash
+                      echo "Check permissions 1"
+                      ls -lrt
+                      whoami
+                      docker ps 
+                '''
                 sh 'docker-compose -f docker-compose-api.yaml ps'
                 sh 'docker-compose -f docker-compose-api.yaml run -e TYPE="@API" api-test-service'
             }
