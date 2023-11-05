@@ -1,10 +1,10 @@
 def user_id
 def group_id
-def user_name
+//def user_name
 node {
     user_id = sh(returnStdout: true, script: 'id -u').trim()
     group_id = sh(returnStdout: true, script: 'id -g').trim()
-    user_name = sh(returnStdout: true, script: 'id -un').trim()
+    //user_name = sh(returnStdout: true, script: 'id -un').trim()
 }
 
 pipeline {
@@ -26,8 +26,8 @@ pipeline {
                   echo user_id
                   echo 'group_id'
                   echo group_id
-                  echo 'user_name'
-                  echo user_name
+                  //echo 'user_name'
+                  //echo user_name
                 sh '''
                   docker version
                   docker info
@@ -48,7 +48,6 @@ pipeline {
                     additionalBuildArgs '''\
                         --build-arg GID=$user_id \
                         --build-arg UID=$group_id \
-                         --build-arg UN=$user_name \
                         '''
                     label "master"
                     reuseNode true
