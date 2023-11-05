@@ -19,6 +19,7 @@ services:
       - ./reports:/home/jenkins/target/
     environment:
       - TYPE="@API"
+      - dockerImage="${dockerImage}"
     entrypoint: ./runner-api.sh
 
 #    env_file:
