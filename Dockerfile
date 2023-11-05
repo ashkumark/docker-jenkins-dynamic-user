@@ -10,7 +10,7 @@ ENV USERNAME jenkins
 
 #USER root
 
-#RUN mkdir /home/$USERNAME
+RUN mkdir /home/$USERNAME
 
 #Jenkins user and permissions
 RUN groupadd -g $GROUP_ID $USERNAME
