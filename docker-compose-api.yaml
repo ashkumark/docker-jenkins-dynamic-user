@@ -13,7 +13,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    user: "${UID}:${GID}"
+    #user: "${UID}:${GID}"
     networks:
       - rest
     volumes:
