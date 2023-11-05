@@ -9,8 +9,8 @@ FROM ubuntu:latest
 
 ARG user=jenkins
 ARG group=jenkins
-ARG uid=$UID
-ARG gid=$GID
+ARG uid=$JENKINS_USER_ID
+ARG gid=$JENKINS_GROUP_ID
 ARG JENKINS_HOME=/home/$user
 
 RUN mkdir -p $JENKINS_HOME
