@@ -35,7 +35,7 @@ pipeline {
         stage('Build Image') {
             steps {
                 script {
-                    dockerImage = docker.build("docker-jenkins-automation:${env.BUILD_ID}")
+                    dockerImage = docker.build("docker-jenkins-automation:latest")
                     echo "image built"
                     sh 'docker image ls'
                     currentWorkspace = "$WORKSPACE"
