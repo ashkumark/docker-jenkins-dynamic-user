@@ -8,11 +8,10 @@ volumes:
   reports-api-volume:
  
 services:
-  # Version 6 -
+# Version 7 -
   api-test-service:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: docker-jenkins-automation:${env.BUILD_ID}
+
     #user: "${UID}:${GID}"
     networks:
       - rest
@@ -21,6 +20,20 @@ services:
     environment:
       - TYPE="@API"
     entrypoint: ./runner-api.sh
+
+#  # Version 6 -
+#  api-test-service:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    #user: "${UID}:${GID}"
+#    networks:
+#      - rest
+#    volumes:
+#      - ./reports:/home/jenkins/target/
+#    environment:
+#      - TYPE="@API"
+#    entrypoint: ./runner-api.sh
 
 
   # Version 5 - try multiple volumes (bind mount / volume mount)
