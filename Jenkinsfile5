@@ -61,6 +61,9 @@ pipeline {
                       ls -lrt
                       whoami
                       docker ps 
+                      docker-compose config
+                      echo "printenv"
+                      printenv
                 '''
                 sh 'dockerImage=${dockerImage} docker-compose -f docker-compose-api.yaml up -d --no-color'
                 sh 'docker-compose -f docker-compose-api.yaml ps'
