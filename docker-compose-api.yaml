@@ -13,6 +13,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    user: "${UID}:${GID}"
     networks:
       - rest
     volumes:
@@ -20,7 +21,7 @@ services:
     environment:
       - TYPE="@API"
     entrypoint: ./runner-api.sh
-    user: "1001:1001"
+
 
   # Version 5 - try multiple volumes (bind mount / volume mount)
 #  api-test-service:

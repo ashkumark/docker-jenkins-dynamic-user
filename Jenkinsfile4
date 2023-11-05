@@ -43,7 +43,7 @@ pipeline {
                     filename 'Dockerfile'
                     additionalBuildArgs '''\
                         --build-arg GID=$user_id \
-                        --build-arg UID=group_id \
+                        --build-arg UID=$group_id \
                         '''
                     label "master"
                     reuseNode true
