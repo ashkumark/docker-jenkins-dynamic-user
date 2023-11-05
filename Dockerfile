@@ -8,15 +8,22 @@ ENV GROUP_ID=$GID
 ENV USER_ID=$UID
 ENV USERNAME jenkins
 
-ARG JENKINS_HOME=/var/jenkins_home
+ARG JENKINS_HOME=/home/$USERNAME
 ARG user=jenkins
 ARG group=jenkins
 ARG uid=1001
 ARG gid=1001
 
+RUN mkdir $JENKINS_HOME
+
+WORKDIR $JENKINS_HOME
+COPY src $JENKINS_HOME/src
+COPY pom.xml $JENKINS_HOME
+COPY runner-api.sh $JENKINS_HOME
+
 #USER root
 
-RUN mkdir /home/$USERNAME
+
 
 RUN mkdir -p $JENKINS_HOME \
   && chown ${uid}:${gid} $JENKINS_HOME \
@@ -93,7 +100,3 @@ RUN chmod ug+x /usr/local/bin/docker-compose
 #RUN chmod -R ug+rwx /usr/bin/docker-compose
 
 USER $USERNAME
-WORKDIR /home/$USERNAME
-COPY src /home/$USERNAME/src
-COPY pom.xml /home/$USERNAME
-COPY runner-api.sh /home/$USERNAME
