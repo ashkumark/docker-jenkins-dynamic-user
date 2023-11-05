@@ -6,15 +6,16 @@ ARG UID
 
 ENV GROUP_ID=$GID
 ENV USER_ID=$UID
-ENV USERNAME=$UID
+ENV USERNAME jenkins
+
+#USER root
 
 #RUN mkdir /home/$USERNAME
-USER root
 
 #Jenkins user and permissions
-#RUN groupadd -g $GROUP_ID $USERNAME
-#RUN useradd -m -u $USER_ID -g $USERNAME -d /home/$USERNAME $USERNAME
-#RUN chown -R $USERNAME:$USERNAME /home/$USERNAME
+RUN groupadd -g $GROUP_ID $USERNAME
+RUN useradd -r -u $USER_ID -g $USERNAME -d /home/$USERNAME $USERNAME
+RUN chown -R $USERNAME:$USERNAME /home/$USERNAME
 #RUN chmod -R ug+rwx /home/$USERNAME
 
 #RUN mkdir -p /var/jenkins_home
