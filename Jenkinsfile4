@@ -26,6 +26,8 @@ pipeline {
                   echo user_id
                   echo 'group_id'
                   echo group_id
+                  echo 'user_name'
+                  echo user_name
                 sh '''
                   docker version
                   docker info
