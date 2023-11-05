@@ -8,13 +8,7 @@ ENV GROUP_ID=$GID
 ENV USER_ID=$UID
 ENV USERNAME=$UID
 
-RUN mkdir /home/$USERNAME
-
-WORKDIR /home/$USERNAME
-COPY src /home/$USERNAME/src
-COPY pom.xml /home/$USERNAME
-COPY runner-api.sh /home/$USERNAME
-
+#RUN mkdir /home/$USERNAME
 USER root
 
 #Jenkins user and permissions
@@ -86,3 +80,7 @@ RUN chmod ug+x /usr/local/bin/docker-compose
 #RUN chmod -R ug+rwx /usr/bin/docker-compose
 
 USER $USERNAME
+WORKDIR /home/$USERNAME
+COPY src /home/$USERNAME/src
+COPY pom.xml /home/$USERNAME
+COPY runner-api.sh /home/$USERNAME
