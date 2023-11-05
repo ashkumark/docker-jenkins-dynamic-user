@@ -79,6 +79,7 @@ pipeline {
         stage('API Automation') {
             agent {
                 docker {
+                    image 'docker-jenkins-automation:latest'
                     label 'docker'
                 }
 /*                dockerfile {
