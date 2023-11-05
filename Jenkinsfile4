@@ -1,3 +1,10 @@
+def user_id
+def group_id
+node {
+    user_id = sh(returnStdout: true, script: 'id -u').trim()
+    group_id = sh(returnStdout: true, script: 'id -g').trim()
+}
+
 pipeline {
     agent any
     //agent { label 'master' }
@@ -13,6 +20,10 @@ pipeline {
 	stages {
         stage("Check Docker version") {
               steps {
+                  echo 'user_id'
+                  echo user_id
+                  echo 'group_id'
+                  echo group_id
                 sh '''
                   docker version
                   docker info
@@ -30,6 +41,10 @@ pipeline {
             agent {
                 dockerfile {
                     filename 'Dockerfile'
+                    additionalBuildArgs '''\
+                        --build-arg GID=$user_id \
+                        --build-arg UID=group_id \
+                        '''
                     label "master"
                     reuseNode true
                 }
