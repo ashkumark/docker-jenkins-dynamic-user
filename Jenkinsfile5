@@ -46,8 +46,8 @@ pipeline {
 
         stage('Compose') {
             agent {
-                docker {
-                    image "${dockerImage}"
+                dockerfile {
+                    filename 'Dockerfile'
                     args '-v $HOME/.m2:/root/.m2'
                     reuseNode true
                 }
