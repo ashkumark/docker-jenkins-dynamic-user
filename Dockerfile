@@ -8,14 +8,25 @@ ENV GROUP_ID=$GID
 ENV USER_ID=$UID
 ENV USERNAME jenkins
 
+ARG JENKINS_HOME=/var/jenkins_home
+ARG user=jenkins
+ARG group=jenkins
+ARG uid=1001
+ARG gid=1001
+
 #USER root
 
 RUN mkdir /home/$USERNAME
 
+RUN mkdir -p $JENKINS_HOME \
+  && chown ${uid}:${gid} $JENKINS_HOME \
+  && groupadd -g ${gid} ${group} \
+  && useradd -d "$JENKINS_HOME" -u ${uid} -g ${gid} -l -m -s /bin/bash ${user}
+
 #Jenkins user and permissions
-RUN groupadd -g $GROUP_ID $USERNAME
-RUN useradd -r -u $USER_ID -g $USERNAME -d /home/$USERNAME $USERNAME
-RUN chown -R $USERNAME:$USERNAME /home/$USERNAME
+#RUN groupadd -g $GROUP_ID $USERNAME
+#RUN useradd -r -u $USER_ID -g $USERNAME -d /home/$USERNAME $USERNAME
+#RUN chown -R $USERNAME:$USERNAME /home/$USERNAME
 #RUN chmod -R ug+rwx /home/$USERNAME
 
 #RUN mkdir -p /var/jenkins_home
