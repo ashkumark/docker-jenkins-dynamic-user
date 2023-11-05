@@ -1,16 +1,18 @@
 FROM ubuntu:latest
 
-#ARG GID
-#ARG UID
+
 #ARG UN
 #ENV GROUP_ID=$GID
 #ENV USER_ID=$UID
 #ENV USERNAME jenkins
 
+ARG GID
+ARG UID
+
 ARG user=jenkins
 ARG group=jenkins
-ARG uid="${JENKINS_USER_ID}"
-ARG gid="${JENKINS_GROUP_ID}"
+ENV uid=$UID
+ENV gid=$GID
 ARG JENKINS_HOME=/home/$user
 
 RUN mkdir -p $JENKINS_HOME
