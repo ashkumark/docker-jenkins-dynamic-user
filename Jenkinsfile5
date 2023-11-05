@@ -80,7 +80,7 @@ pipeline {
             agent {
                 docker {
                     image 'docker-jenkins-automation:latest'
-                    label 'docker'
+                    //label 'docker'
                 }
 /*                dockerfile {
                     filename 'Dockerfile'
