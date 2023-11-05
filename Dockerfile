@@ -12,10 +12,11 @@ ENV USERNAME=$UID
 USER root
 
 #Jenkins user and permissions
-RUN groupadd -g $GROUP_ID $USERNAME
-RUN useradd -m -u $USER_ID -g $USERNAME -d /home/$USERNAME $USERNAME
-RUN chown -R $USERNAME:$USERNAME /home/$USERNAME
-RUN chmod -R ug+rwx /home/$USERNAME
+#RUN groupadd -g $GROUP_ID $USERNAME
+#RUN useradd -m -u $USER_ID -g $USERNAME -d /home/$USERNAME $USERNAME
+#RUN chown -R $USERNAME:$USERNAME /home/$USERNAME
+#RUN chmod -R ug+rwx /home/$USERNAME
+
 #RUN mkdir -p /var/jenkins_home
 #RUN chown -R $USERNAME:$USERNAME /var/jenkins_home
 #RUN chmod -R ug+rwx /var/jenkins_home
