@@ -45,6 +45,7 @@ pipeline {
             agent {
                 dockerfile {
                     filename 'Dockerfile'
+                    args '-v $HOME/.m2:/root/.m2'
                     additionalBuildArgs '''\
                         --build-arg UID=$JENKINS_USER_ID \
                         --build-arg GID=$JENKINS_GROUP_ID \
@@ -81,6 +82,11 @@ pipeline {
             agent {
                 dockerfile {
                     filename 'Dockerfile'
+                    args '-v $HOME/.m2:/root/.m2'
+                    additionalBuildArgs '''\
+                        --build-arg UID=$JENKINS_USER_ID \
+                        --build-arg GID=$JENKINS_GROUP_ID \
+                        '''
                     label "master"
                     reuseNode true
                 }
