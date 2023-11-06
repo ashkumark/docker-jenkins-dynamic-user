@@ -34,8 +34,8 @@ COPY runner-api.sh $JENKINS_HOME
 RUN groupadd -g ${gid} ${group} \
   && useradd -d $JENKINS_HOME -u ${uid} -g ${gid} -l -m -s /bin/bash ${user}
 
-RUN chown ${user}:${user} $JENKINS_HOME \
-  && chmod -R ug+rwx $JENKINS_HOME
+RUN chown -R ${user}:${user} $JENKINS_HOME
+RUN chmod ug+rwx $JENKINS_HOME
 
 #Jenkins user and permissions
 #RUN groupadd -g $GROUP_ID ${user}
@@ -56,7 +56,7 @@ RUN chown ${user}:${user} $JENKINS_HOME \
 # Create a runner script for the entrypoint (used in docker-compose)
 RUN chown -R ${user}:${user} ./runner-api.sh
 RUN chmod ug+x ./runner-api.sh
-RUN mkdir -p target && chown -R ${user}:${user} target && chmod -R ug+rwx target
+RUN mkdir -p target && chown -R ${user}:${user} /target && chmod ug+rwx /target
 
 #Basic Utils
 RUN apt-get update
