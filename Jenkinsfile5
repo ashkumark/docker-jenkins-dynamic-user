@@ -106,7 +106,7 @@ pipeline {
                     reportName           : 'Cucumber Test Report'
             ]
 
-            cleanWs()
+            //cleanWs()
         }
     }
 }

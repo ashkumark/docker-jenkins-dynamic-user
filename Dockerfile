@@ -61,9 +61,7 @@ RUN chmod ug+x ./runner-api.sh
 #RUN mkdir -p target
 #RUN chown -R ${user}:${user} target
 #RUN chmod ug+rwx target
-RUN mkdir -p target
-RUN chown -R ${user}:${user} target
-RUN chmod ug+rwx target
+
 RUN chown -R ${user}:${user} $JENKINS_HOME
 RUN chmod ug+rwx $JENKINS_HOME
 
