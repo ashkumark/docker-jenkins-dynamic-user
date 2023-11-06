@@ -59,9 +59,9 @@ pipeline {
                 }*/
             }
             steps {
-                script {
+/*                script {
                     echo "Current workspace is ${currentWorkspace}"
-                }
+                }*/
                 sh '''#!/bin/bash
                       echo "Check permissions 1"
                       ls -lrt
@@ -89,10 +89,10 @@ pipeline {
                 }*/
             }
             steps {
-                script {
+/*                script {
                     currentWorkspace = "$WORKSPACE"
                     echo "Current workspace is ${currentWorkspace}"
-                }
+                }*/
                 sh '''#!/bin/bash
                       echo "Check permissions 2"
                       ls -lrt
@@ -105,6 +105,12 @@ pipeline {
         }
 
         stage('Generate HTML report') {
+            agent {
+                docker {
+                    image 'docker-jenkins-automation:latest'
+                    //label 'docker'
+                }
+            }
             steps {
                 cucumber buildStatus: '',
                         reportTitle: 'Cucumber report',
@@ -132,6 +138,12 @@ pipeline {
 	}
 
 	post {
+        agent {
+            docker {
+                image 'docker-jenkins-automation:latest'
+                //label 'docker'
+            }
+        }
         always {
         // publish html reports
         publishHTML target: [
@@ -153,7 +165,7 @@ pipeline {
 
             sh 'docker-compose down --remove-orphans -v'
             sh 'docker-compose ps'
-            //cleanWs()
+            cleanWs()
         }
     }
 }
