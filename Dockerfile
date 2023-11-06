@@ -62,6 +62,10 @@ RUN chmod ug+x ./runner-api.sh
 #RUN chown -R ${user}:${user} target
 #RUN chmod ug+rwx target
 
+USER root
+RUN rm -Rf target
+USER ${user}
+
 RUN chown -R ${user}:${user} $JENKINS_HOME
 RUN chmod ug+rwx $JENKINS_HOME
 
