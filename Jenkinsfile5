@@ -120,15 +120,15 @@ pipeline {
             }
         }
 		
-		stage('Docker Teardown') {
+/*		stage('Docker Teardown') {
 			steps {
-				/* Tear down docker compose */
+				*//* Tear down docker compose *//*
 				sh 'docker-compose down'
 				
-                /* Tear down all containers */
+                *//* Tear down all containers *//*
                 sh 'docker-compose rm -sf'
 			}
-		}
+		}*/
 	}
 
 	post {
