@@ -26,10 +26,16 @@ COPY runner-api.sh $JENKINS_HOME
 
 #USER root
 
-RUN chown ${user}:${user} $JENKINS_HOME \
-  && chmod -R ug+rwx $JENKINS_HOME \
-  && groupadd -g ${gid} ${group} \
+#RUN chown ${uid}:${gid} $JENKINS_HOME \
+#  && chmod -R ug+rwx $JENKINS_HOME \
+#  && groupadd -g ${gid} ${group} \
+#  && useradd -d $JENKINS_HOME -u ${uid} -g ${gid} -l -m -s /bin/bash ${user}
+
+RUN groupadd -g ${gid} ${group} \
   && useradd -d $JENKINS_HOME -u ${uid} -g ${gid} -l -m -s /bin/bash ${user}
+
+RUN chown ${user}:${user} $JENKINS_HOME \
+  && chmod -R ug+rwx $JENKINS_HOME
 
 #Jenkins user and permissions
 #RUN groupadd -g $GROUP_ID ${user}
