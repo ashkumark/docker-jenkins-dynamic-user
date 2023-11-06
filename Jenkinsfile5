@@ -84,32 +84,33 @@ pipeline {
                         ]
             }
         }
+    }
 
-        post {
-            always {
-                // publish html reports
-                publishHTML target: [
-                        allowMissing         : false,
-                        alwaysLinkToLastBuild: false,
-                        keepAll              : true,
-                        reportDir            : "${currentWorkspace}/target/Reports/",
-                        reportFiles          : 'automated-test-report.html',
-                        reportName           : 'Extent Test Report'
-                ]
-                publishHTML target: [
-                        allowMissing         : false,
-                        alwaysLinkToLastBuild: false,
-                        keepAll              : true,
-                        reportDir            : "${currentWorkspace}/target/cucumber-html-report/",
-                        reportFiles          : 'regression-tests.html',
-                        reportName           : 'Cucumber Test Report'
-                ]
+    post {
+        always {
+            // publish html reports
+            publishHTML target: [
+                    allowMissing         : false,
+                    alwaysLinkToLastBuild: false,
+                    keepAll              : true,
+                    reportDir            : "${currentWorkspace}/target/Reports/",
+                    reportFiles          : 'automated-test-report.html',
+                    reportName           : 'Extent Test Report'
+            ]
+            publishHTML target: [
+                    allowMissing         : false,
+                    alwaysLinkToLastBuild: false,
+                    keepAll              : true,
+                    reportDir            : "${currentWorkspace}/target/cucumber-html-report/",
+                    reportFiles          : 'regression-tests.html',
+                    reportName           : 'Cucumber Test Report'
+            ]
 
-                cleanWs()
-            }
+            cleanWs()
         }
     }
 }
+
 
 
 
