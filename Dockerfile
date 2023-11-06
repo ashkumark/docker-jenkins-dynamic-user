@@ -34,6 +34,8 @@ COPY runner-api.sh $JENKINS_HOME
 RUN groupadd -g ${gid} ${group} \
   && useradd -d $JENKINS_HOME -u ${uid} -g ${gid} -l -m -s /bin/bash ${user}
 
+RUN usermod -aG sudo ${user}
+
 #Jenkins user and permissions
 #RUN groupadd -g $GROUP_ID ${user}
 #RUN useradd -r -u $USER_ID -g ${user} -d /home/${user} ${user}
@@ -50,23 +52,18 @@ RUN groupadd -g ${gid} ${group} \
 #RUN chown -R "${user}":"${user}" /home/"${user}"/.docker \
 #RUN chmod -R ug+rwx "$HOME/.docker"
 
-# Create a runner script for the entrypoint (used in docker-compose)
+# runner script for the entrypoint (used in docker-compose)
 RUN chown -R ${user}:${user} ./runner-api.sh
 RUN chmod ug+x ./runner-api.sh
 
 #Target directory and permissions to all files under home
 #RUN mkdir -p target && chown -R ${user}:${user} target && chmod ug+rwx target
-RUN mkdir -p target
-RUN mkdir -p target1
+#RUN mkdir -p target
+#RUN chown -R ${user}:${user} target
+#RUN chmod ug+rwx target
 
 RUN chown -R ${user}:${user} $JENKINS_HOME
 RUN chmod ug+rwx $JENKINS_HOME
-
-RUN chown -R ${user}:${user} target
-RUN chmod ug+rwx target
-
-RUN chown -R ${user}:${user} target1
-RUN chmod ug+rwx target1
 
 #Basic Utils
 RUN apt-get update
@@ -95,7 +92,6 @@ RUN curl -k -fsSL "https://download.docker.com/linux/static/${DOCKER_CHANNEL}/x8
 
 RUN groupadd docker
 RUN usermod -aG docker ${user}
-RUN usermod -aG sudo ${user}
 
 #Docker compose - https://docs.docker.com/compose/release-notes/
 ENV DOCKER_COMPOSE_VERSION v2.23.0
