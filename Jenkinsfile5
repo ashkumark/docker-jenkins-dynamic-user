@@ -1,35 +1,35 @@
 pipeline {
     agent any
 
-	environment {
+    environment {
         dockerImage = ''
-		JENKINS_USER_ID = "${sh(script:'id -u', returnStdout: true).trim()}"
-		JENKINS_GROUP_ID = "${sh(script:'id -g', returnStdout: true).trim()}"
-		currentWorkspace = ''
-	}
+        JENKINS_USER_ID = "${sh(script: 'id -u', returnStdout: true).trim()}"
+        JENKINS_GROUP_ID = "${sh(script: 'id -g', returnStdout: true).trim()}"
+        currentWorkspace = ''
+    }
 
     options {
         timeout(time: 10, unit: 'MINUTES')
     }
-	
-	stages {
+
+    stages {
         stage("Check Docker version") {
-              steps {
-                  echo 'JENKINS_USER_ID'
-                  echo JENKINS_USER_ID
-                  echo 'JENKINS_GROUP_ID'
-                  echo JENKINS_GROUP_ID
+            steps {
+                echo 'JENKINS_USER_ID'
+                echo JENKINS_USER_ID
+                echo 'JENKINS_GROUP_ID'
+                echo JENKINS_GROUP_ID
                 sh '''
                   docker version
                   docker info
                 '''
-              }
+            }
         }
 
         stage('Docker System Prune') {
-              steps {
+            steps {
                 sh 'docker system prune -a --volumes -f'
-              }
+            }
         }
 
         stage('Build Image') {
@@ -44,7 +44,7 @@ pipeline {
             }
         }
 
-        stage('Compose') {
+        stage('API Automation') {
             agent {
                 docker {
                     image 'docker-jenkins-automation:latest'
@@ -52,16 +52,8 @@ pipeline {
                     args '-v $HOME/.m2:/root/.m2'
                     reuseNode true
                 }
-/*                dockerfile {
-                    filename 'Dockerfile'
-                    args '-v $HOME/.m2:/root/.m2'
-                    reuseNode true
-                }*/
             }
             steps {
-/*                script {
-                    echo "Current workspace is ${currentWorkspace}"
-                }*/
                 sh '''#!/bin/bash
                       echo "Check permissions 1"
                       ls -lrt
@@ -72,33 +64,6 @@ pipeline {
                       printenv
                 '''
                 sh 'docker-compose -f docker-compose-api.yaml up -d --no-color --no-build'
-                sh 'docker-compose -f docker-compose-api.yaml ps'
-            }
-        }
-
-        stage('API Automation') {
-            agent {
-                docker {
-                    image 'docker-jenkins-automation:latest'
-                    //label 'docker'
-                }
-/*                dockerfile {
-                    filename 'Dockerfile'
-                    args '-v $HOME/.m2:/root/.m2'
-                    reuseNode true
-                }*/
-            }
-            steps {
-/*                script {
-                    currentWorkspace = "$WORKSPACE"
-                    echo "Current workspace is ${currentWorkspace}"
-                }*/
-                sh '''#!/bin/bash
-                      echo "Check permissions 2"
-                      ls -lrt
-                      whoami
-                      docker ps 
-                '''
                 sh 'docker-compose -f docker-compose-api.yaml ps'
                 sh 'docker-compose -f docker-compose-api.yaml run -e TYPE="@API" api-test-service'
             }
@@ -119,45 +84,32 @@ pipeline {
                         ]
             }
         }
-		
-/*		stage('Docker Teardown') {
-			steps {
-				*//* Tear down docker compose *//*
-				sh 'docker-compose down'
-				
-                *//* Tear down all containers *//*
-                sh 'docker-compose rm -sf'
-			}
-		}*/
-	}
 
-	post {
-        always {
-        // publish html reports
-        publishHTML target: [
-                allowMissing: false,
-                alwaysLinkToLastBuild: false,
-                keepAll: true,
-                reportDir: "${currentWorkspace}/target/Reports/",
-                reportFiles: 'automated-test-report.html',
-                reportName: 'Extent Test Report'
-        ]
-        publishHTML target: [
-                allowMissing: false,
-                alwaysLinkToLastBuild: false,
-                keepAll: true,
-                reportDir: "${currentWorkspace}/target/cucumber-html-report/",
-                reportFiles: 'regression-tests.html',
-                reportName: 'Cucumber Test Report'
-        ]
+        post {
+            always {
+                // publish html reports
+                publishHTML target: [
+                        allowMissing         : false,
+                        alwaysLinkToLastBuild: false,
+                        keepAll              : true,
+                        reportDir            : "${currentWorkspace}/target/Reports/",
+                        reportFiles          : 'automated-test-report.html',
+                        reportName           : 'Extent Test Report'
+                ]
+                publishHTML target: [
+                        allowMissing         : false,
+                        alwaysLinkToLastBuild: false,
+                        keepAll              : true,
+                        reportDir            : "${currentWorkspace}/target/cucumber-html-report/",
+                        reportFiles          : 'regression-tests.html',
+                        reportName           : 'Cucumber Test Report'
+                ]
 
-/*            sh 'docker-compose down --remove-orphans -v'
-            sh 'docker-compose ps'*/
-            cleanWs()
+                cleanWs()
+            }
         }
     }
 }
-
 
 
 
