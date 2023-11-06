@@ -54,12 +54,19 @@ RUN groupadd -g ${gid} ${group} \
 RUN chown -R ${user}:${user} ./runner-api.sh
 RUN chmod ug+x ./runner-api.sh
 
-#Traget directory and permissions to all files under home
+#Target directory and permissions to all files under home
 #RUN mkdir -p target && chown -R ${user}:${user} target && chmod ug+rwx target
 RUN mkdir -p target
+RUN mkdir -p target1
 
 RUN chown -R ${user}:${user} $JENKINS_HOME
 RUN chmod ug+rwx $JENKINS_HOME
+
+RUN chown -R ${user}:${user} target
+RUN chmod ug+rwx target
+
+RUN chown -R ${user}:${user} target1
+RUN chmod ug+rwx target1
 
 #Basic Utils
 RUN apt-get update
