@@ -26,7 +26,7 @@ COPY runner-api.sh $JENKINS_HOME
 
 #USER root
 
-RUN chown ${uid}:${gid} $JENKINS_HOME \
+RUN chown ${user}:${user} $JENKINS_HOME \
   && chmod -R ug+rwx $JENKINS_HOME \
   && groupadd -g ${gid} ${group} \
   && useradd -d $JENKINS_HOME -u ${uid} -g ${gid} -l -m -s /bin/bash ${user}
