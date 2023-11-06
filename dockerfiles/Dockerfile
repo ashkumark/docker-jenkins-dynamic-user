@@ -57,11 +57,15 @@ RUN chown -R ${user}:${user} ./runner-api.sh
 RUN chmod ug+x ./runner-api.sh
 
 #Target directory and permissions to all files under home
-# && chown -R ${user}:${user} target && chmod ug+rwx target
+#RUN mkdir -p target && chown -R ${user}:${user} target && chmod ug+rwx target
 #RUN mkdir -p target
 #RUN chown -R ${user}:${user} target
 #RUN chmod ug+rwx target
-RUN mkdir -p target
+
+USER root
+RUN rm -Rf target
+#USER ${user}
+
 RUN chown -R ${user}:${user} $JENKINS_HOME
 RUN chmod ug+rwx $JENKINS_HOME
 
