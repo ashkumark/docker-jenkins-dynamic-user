@@ -58,8 +58,8 @@ RUN chmod ug+x ./runner-api.sh
 #RUN chmod ug+rwx target
 #RUN chgrp ${group} target
 
-#RUN chown -R $user:$group $JENKINS_HOME
-#RUN chmod ug+rwx $JENKINS_HOME
+RUN chown -R $user:$group $JENKINS_HOME
+RUN chmod ug+rwx $JENKINS_HOME
 
 #Basic Utils
 RUN apt-get update
