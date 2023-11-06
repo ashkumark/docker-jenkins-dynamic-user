@@ -1,10 +1,21 @@
 FROM ubuntu:latest
 
-ENV user=jenkins
-ENV group=jenkins
+
+#ARG UN
+#ENV GROUP_ID=$GID
+#ENV USER_ID=$UID
+#ENV USERNAME jenkins
+
+ARG GID
+ARG UID
+
+ARG user=jenkins
+ARG group=jenkins
+#ENV uid=$UID
+#ENV gid=$GID
 ENV uid=1001
 ENV gid=1001
-ENV JENKINS_HOME=/home/$user
+ARG JENKINS_HOME=/home/$user
 
 RUN mkdir -p $JENKINS_HOME
 
@@ -20,16 +31,10 @@ COPY runner-api.sh $JENKINS_HOME
 #  && groupadd -g ${gid} ${group} \
 #  && useradd -d $JENKINS_HOME -u ${uid} -g ${gid} -l -m -s /bin/bash ${user}
 
-#RUN groupadd -g ${gid} ${group} \
-#  && useradd -d $JENKINS_HOME -u ${uid} -g ${gid} -l -m -s /bin/bash ${user}
-
-RUN groupadd $group -g $gid \
-    && useradd -m $user -u $uid -g $gid -d $JENKINS_HOME
+RUN groupadd -g ${gid} ${group} \
+  && useradd -d $JENKINS_HOME -u ${uid} -g ${gid} -l -m -s /bin/bash ${user}
 
 RUN usermod -aG sudo ${user}
-
-#RUN mkdir -p /root/.m2 && chown $user:$group -R /root
-RUN mkdir -p $JENKINS_HOME/target && chown $user:$group -R $JENKINS_HOME/target
 
 #Jenkins user and permissions
 #RUN groupadd -g $GROUP_ID ${user}
@@ -48,18 +53,18 @@ RUN mkdir -p $JENKINS_HOME/target && chown $user:$group -R $JENKINS_HOME/target
 #RUN chmod -R ug+rwx "$HOME/.docker"
 
 # runner script for the entrypoint (used in docker-compose)
-RUN chown -R $user:$group ./runner-api.sh
+RUN chown -R ${user}:${user} ./runner-api.sh
 RUN chmod ug+x ./runner-api.sh
 
 #Target directory and permissions to all files under home
 # && chown -R ${user}:${user} target && chmod ug+rwx target
-#RUN mkdir -p target
-#RUN chown -R ${user}:${user} target
-#RUN chmod ug+rwx target
-#RUN chgrp ${group} target
+RUN mkdir -p target
+RUN chown -R ${user}:${user} target
+RUN chmod ug+rwx target
+RUN chgrp ${group} target
 
-#RUN chown -R $user:$group $JENKINS_HOME
-#RUN chmod ug+rwx $JENKINS_HOME
+RUN chown -R ${user}:${user} $JENKINS_HOME
+RUN chmod ug+rwx $JENKINS_HOME
 
 #Basic Utils
 RUN apt-get update
