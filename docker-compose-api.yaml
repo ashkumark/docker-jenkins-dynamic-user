@@ -20,9 +20,6 @@ services:
     environment:
       - TYPE="@API"
     command:
-      - bash -c ls
-      - bash -c whoami
-      - bash -c pwd
       - /bin/sh -c 'whoami'
       - /bin/sh -c 'pwd'
       - /bin/sh -c 'chown -R ${HOST_UID_GID} .'
