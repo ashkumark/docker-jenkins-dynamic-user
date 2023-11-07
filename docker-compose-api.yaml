@@ -19,7 +19,9 @@ services:
       - ./reports:/home/jenkins/target/
     environment:
       - TYPE="@API"
-    command: /bin/sh -c "./runner-api.sh"
+    command:
+      - find . -type d -exec sudo chown ${HOST_UID_GID} {} \;
+      - /bin/sh -c "./runner-api.sh"
 #    entrypoint: ./runner-api.sh
 #    env_file:
 #      - .env
