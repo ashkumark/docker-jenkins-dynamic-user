@@ -63,8 +63,7 @@ RUN chmod ug+x ./run-api-tests.sh
 #RUN chmod ug+rwx target
 #RUN chgrp ${group} target
 
-RUN chown -R $user:$group $JENKINS_HOME
-RUN chmod ug+rwx $JENKINS_HOME
+
 
 #Basic Utils
 RUN apt-get update
@@ -75,7 +74,7 @@ RUN apt-get install -y openjdk-17-jdk
 
 #Maven
 RUN mkdir -p $JENKINS_HOME/.m2
-RUN chown $user:$group -R $JENKINS_HOME
+#RUN chown $user:$group -R $JENKINS_HOME
 
 ARG MAVEN_VERSION=3.9.5
 RUN mkdir -p /usr/share/maven /usr/share/maven/ref \
@@ -86,7 +85,9 @@ RUN mkdir -p /usr/share/maven /usr/share/maven/ref \
 ENV MAVEN_HOME /usr/share/maven
 ENV MAVEN_CONFIG $JENKINS_HOME/.m2
 RUN mkdir -p $MAVEN_CONFIG/repository
-#RUN chown $user:$group $JENKINS_HOME -R
+
+RUN chown -R $user:$group $JENKINS_HOME
+RUN chmod -R ug+rwx $JENKINS_HOME
 
 #ENV MAVEN_VERSION 3.9.5
 #RUN wget --no-check-certificate https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz
