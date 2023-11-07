@@ -20,8 +20,8 @@ services:
     environment:
       - TYPE="@API"
     command:
-#      - /bin/sh -c "./utils-script.sh"
       - /bin/sh -c "./runner-api.sh"
+#      - /bin/sh -c "./utils-script.sh"
 #    entrypoint: ./runner-api.sh
 #    env_file:
 #      - .env
