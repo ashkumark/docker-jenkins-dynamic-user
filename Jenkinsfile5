@@ -72,8 +72,8 @@ pipeline {
                 sh '''#!/bin/bash
                         echo "Check permissions 2"
                         echo "Current workspace is ${currentWorkspace}"
-                        chown -R ${HOST_UID_GID} ${currentWorkspace}
-                        chmod +x -R ${currentWorkspace}
+                        chown -R $JENKINS_USER_ID:$JENKINS_GROUP_ID ${currentWorkspace}
+                        chmod ug+rwx ${currentWorkspace}
                         ls -lrt
                         whoami
                         ./run-api-tests.sh
