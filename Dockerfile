@@ -74,6 +74,9 @@ RUN apt-get install -y wget curl jq unzip sudo tar acl apt-transport-https ca-ce
 RUN apt-get install -y openjdk-17-jdk
 
 #Maven
+RUN mkdir -p $JENKINS_HOME/.m2  \
+RUN chown $user:$group -R $JENKINS_HOME
+
 ARG MAVEN_VERSION=3.9.5
 RUN mkdir -p /usr/share/maven /usr/share/maven/ref \
   && curl -fsSL http://apache.osuosl.org/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz \
@@ -81,9 +84,9 @@ RUN mkdir -p /usr/share/maven /usr/share/maven/ref \
   && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
 
 ENV MAVEN_HOME /usr/share/maven
-ENV MAVEN_CONFIG "$JENKINS_HOME/.m2"
-RUN mkdir $MAVEN_CONFIG/repository
-RUN chown $user:$group $JENKINS_HOME -R
+ENV MAVEN_CONFIG $JENKINS_HOME/.m2
+RUN mkdir -p $MAVEN_CONFIG/repository
+#RUN chown $user:$group $JENKINS_HOME -R
 
 #ENV MAVEN_VERSION 3.9.5
 #RUN wget --no-check-certificate https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz
