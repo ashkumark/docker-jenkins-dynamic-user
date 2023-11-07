@@ -63,9 +63,11 @@ pipeline {
                       echo "printenv"
                       printenv
                 '''
-                sh 'docker-compose -f docker-compose-api.yaml up -d --no-color --no-build'
+/*                sh 'docker-compose -f docker-compose-api.yaml up -d --no-color --no-build'
                 sh 'docker-compose -f docker-compose-api.yaml ps'
-                sh 'docker-compose -f docker-compose-api.yaml run -e TYPE="@API" api-test-service'
+                sh 'docker-compose -f docker-compose-api.yaml run -e TYPE="@API" api-test-service'*/
+
+                sh './run-api-tests.sh'
             }
         }
 

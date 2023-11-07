@@ -12,6 +12,7 @@ WORKDIR $JENKINS_HOME
 COPY src $JENKINS_HOME/src
 COPY pom.xml $JENKINS_HOME
 COPY runner-api.sh $JENKINS_HOME
+COPY run-api-tests.sh $JENKINS_HOME
 
 #USER root
 
@@ -50,6 +51,9 @@ RUN mkdir -p $JENKINS_HOME/target && chown $user:$group -R $JENKINS_HOME/target
 # runner script for the entrypoint (used in docker-compose)
 RUN chown -R $user:$group ./runner-api.sh
 RUN chmod ug+x ./runner-api.sh
+
+RUN chown -R $user:$group ./run-api-tests.sh
+RUN chmod ug+x ./run-api-tests.sh
 
 #Target directory and permissions to all files under home
 # && chown -R ${user}:${user} target && chmod ug+rwx target
