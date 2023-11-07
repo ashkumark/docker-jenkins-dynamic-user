@@ -69,6 +69,8 @@ pipeline {
 
                 script {
                     echo "Docker compose run.."
+                    sh 'chown -R ${HOST_UID_GID} ${env.WORKSPACE}/'
+                    sh 'chmod +x -R ${env.WORKSPACE}/'
                     sh './run-api-tests.sh'
                 }
 
