@@ -9,10 +9,11 @@ ENV JENKINS_HOME=/home/$user
 RUN mkdir -p $JENKINS_HOME
 
 WORKDIR $JENKINS_HOME
-COPY src $JENKINS_HOME/src
-COPY pom.xml $JENKINS_HOME
-COPY runner-api.sh $JENKINS_HOME
-COPY run-api-tests.sh $JENKINS_HOME
+#COPY src $JENKINS_HOME/src
+#COPY pom.xml $JENKINS_HOME
+#COPY runner-api.sh $JENKINS_HOME
+#COPY run-api-tests.sh $JENKINS_HOME
+COPY . .
 
 #USER root
 
