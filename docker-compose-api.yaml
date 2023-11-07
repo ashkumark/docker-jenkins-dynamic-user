@@ -11,9 +11,8 @@ services:
   # Version 7 -
   api-test-service:
     image: docker-jenkins-automation:latest
-    #user: "${env.JENKINS_USER_ID}:${env.JENKINS_GROUP_ID}"
-    #user: "1001:1001"
-    user: "${UID}:${GID}"
+    working_dir: /home/jenkins
+    user: ${HOST_UID_GID}
     networks:
       - rest
     volumes:
