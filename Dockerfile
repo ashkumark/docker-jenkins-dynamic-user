@@ -81,7 +81,7 @@ RUN mkdir -p /usr/share/maven /usr/share/maven/ref \
   && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
 
 ENV MAVEN_HOME /usr/share/maven
-ENV MAVEN_CONFIG "$USER_HOME_DIR/.m2"
+ENV MAVEN_CONFIG "$JENKINS_HOME/.m2"
 RUN mkdir $MAVEN_CONFIG/repository
 RUN chown $user:$group $JENKINS_HOME -R
 
