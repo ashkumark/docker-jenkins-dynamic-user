@@ -39,9 +39,9 @@ RUN mkdir -p $JENKINS_HOME/target && chown -R $user:$group $JENKINS_HOME/target
 #RUN chown -R ${user}:${user} /home/${user}
 #RUN chmod -R ug+rwx /home/${user}
 
-#RUN mkdir -p /var/jenkins_home
-#RUN chown -R ${user}:${user} /var/jenkins_home
-#RUN chmod -R ug+rwx /var/jenkins_home
+RUN mkdir -p /var/jenkins_home
+RUN chown -R ${user}:${group} /var/jenkins_home
+RUN chmod -R ug+rwx /var/jenkins_home
 
 #permission to connect to the Docker daemon socket
 #RUN chown -R "${user}":"${user}" /var/run/docker.sock \
