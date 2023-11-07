@@ -19,8 +19,7 @@ services:
       - ./reports:/home/jenkins/target/
     environment:
       - TYPE="@API"
-    command:
-      - /bin/sh -c "./runner-api.sh"
+    command: /bin/sh -c "./runner-api.sh"
 #      - /bin/sh -c "./utils-script.sh"
 #    entrypoint: ./runner-api.sh
 #    env_file:
