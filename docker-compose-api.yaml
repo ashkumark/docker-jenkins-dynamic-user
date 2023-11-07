@@ -20,7 +20,8 @@ services:
     environment:
       - TYPE="@API"
     command:
-      - /bin/chown -R ${HOST_UID_GID} /home/jenkins
+      - /bin/pwd
+      - /bin/chown -R ${HOST_UID_GID} .
       - /bin/sh -c "./runner-api.sh"
 #    entrypoint: ./runner-api.sh
 #    env_file:
