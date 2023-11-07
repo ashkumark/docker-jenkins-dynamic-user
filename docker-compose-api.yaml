@@ -12,7 +12,7 @@ services:
   api-test-service:
     image: docker-jenkins-automation:latest
     working_dir: /home/jenkins
-    user: ${HOST_UID_GID}
+    #user: ${HOST_UID_GID}
     networks:
       - rest
     volumes:
