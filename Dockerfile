@@ -74,7 +74,7 @@ RUN apt-get install -y wget curl jq unzip sudo tar acl apt-transport-https ca-ce
 RUN apt-get install -y openjdk-17-jdk
 
 #Maven
-RUN mkdir -p $JENKINS_HOME/.m2  \
+RUN mkdir -p $JENKINS_HOME/.m2
 RUN chown $user:$group -R $JENKINS_HOME
 
 ARG MAVEN_VERSION=3.9.5
