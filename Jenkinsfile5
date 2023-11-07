@@ -67,12 +67,17 @@ pipeline {
                 sh 'docker-compose -f docker-compose-api.yaml ps'
                 sh 'docker-compose -f docker-compose-api.yaml run -e TYPE="@API" api-test-service'*/
 
-                script {
+                echo "Docker compose run.."
+                sh 'chown -R ${HOST_UID_GID} ${env.WORKSPACE}'
+                sh 'chmod +x -R ${env.WORKSPACE}'
+                sh './run-api-tests.sh'
+
+                /*script {
                     echo "Docker compose run.."
-                    sh 'chown -R ${HOST_UID_GID} ${env.WORKSPACE}/'
-                    sh 'chmod +x -R ${env.WORKSPACE}/'
+                    sh 'chown -R ${HOST_UID_GID} ${env.WORKSPACE}'
+                    sh 'chmod +x -R ${env.WORKSPACE}'
                     sh './run-api-tests.sh'
-                }
+                }*/
 
             }
         }
