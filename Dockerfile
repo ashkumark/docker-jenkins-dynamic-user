@@ -9,11 +9,11 @@ ENV JENKINS_HOME=/home/$user
 RUN mkdir -p $JENKINS_HOME
 
 WORKDIR $JENKINS_HOME
-COPY src $JENKINS_HOME/src
-COPY pom.xml $JENKINS_HOME
-COPY runner-api.sh $JENKINS_HOME
-COPY run-api-tests.sh $JENKINS_HOME
-#COPY . .
+#COPY src $JENKINS_HOME/src
+#COPY pom.xml $JENKINS_HOME
+#COPY runner-api.sh $JENKINS_HOME
+#COPY run-api-tests.sh $JENKINS_HOME
+COPY . .
 
 #USER root
 
@@ -29,9 +29,6 @@ RUN groupadd $group -g $gid \
     && useradd -m $user -u $uid -g $gid -d $JENKINS_HOME
 
 RUN usermod -aG sudo ${user}
-
-#RUN mkdir -p /root/.m2 && chown $user:$group -R /root
-RUN mkdir -p $JENKINS_HOME/target && chown -R $user:$group $JENKINS_HOME/target
 
 #Jenkins user and permissions
 #RUN groupadd -g $GROUP_ID ${user}
@@ -63,8 +60,6 @@ RUN chmod ug+x ./run-api-tests.sh
 #RUN chmod ug+rwx target
 #RUN chgrp ${group} target
 
-
-
 #Basic Utils
 RUN apt-get update
 RUN apt-get install -y wget curl jq unzip sudo tar acl apt-transport-https ca-certificates software-properties-common --no-install-recommends
@@ -74,6 +69,7 @@ RUN apt-get install -y openjdk-17-jdk
 
 #Maven
 RUN mkdir -p $JENKINS_HOME/.m2
+RUN mkdir -p $JENKINS_HOME/target
 #RUN chown $user:$group -R $JENKINS_HOME
 
 ARG MAVEN_VERSION=3.9.5
