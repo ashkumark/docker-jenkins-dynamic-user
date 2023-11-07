@@ -1,5 +1,12 @@
 #!/bin/bash
 
+whoami
+pwd
+ls -lrt
+mvn -version
+
+chown -R 1001:1001 /home/jenkins
+
 #version 1
 echo "Run automated API tests (using runner script)..."
 #mvn -f pom.xml test -Dtest=TestRunner -Dcucumber.filter.tags=$TYPE

@@ -20,9 +20,7 @@ services:
     environment:
       - TYPE="@API"
     command:
-      - /bin/sh -c 'whoami'
-      - /bin/sh -c 'pwd'
-      - /bin/sh -c 'chown -R ${HOST_UID_GID} .'
+#      - /bin/sh -c "./utils-script.sh"
       - /bin/sh -c "./runner-api.sh"
 #    entrypoint: ./runner-api.sh
 #    env_file:
