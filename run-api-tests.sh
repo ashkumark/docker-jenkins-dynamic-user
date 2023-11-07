@@ -11,7 +11,7 @@ docker-compose -p $COMPOSE_ID rm -f
 
 # Starting new stack environment
 docker-compose -p $COMPOSE_ID -f docker-compose-api.yaml up -d --no-color --build
-docker-compose -p $COMPOSE_ID -f docker-compose-api.yaml run -e TYPE="@API" api-test-service
+docker-compose -p $COMPOSE_ID -f docker-compose-api.yaml run -e TYPE="@API" -u ${HOST_UID_GID} api-test-service
 
 echo "Project Name - service - status.."
 docker-compose -p $COMPOSE_ID ps -a
