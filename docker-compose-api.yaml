@@ -20,7 +20,7 @@ services:
     environment:
       - TYPE="@API"
     command:
-      - find . -type d -exec sudo chown ${HOST_UID_GID} {} \;
+      - /bin/chown -R ${HOST_UID_GID} /home/jenkins
       - /bin/sh -c "./runner-api.sh"
 #    entrypoint: ./runner-api.sh
 #    env_file:
