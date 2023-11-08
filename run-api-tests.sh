@@ -36,9 +36,9 @@ docker-compose -f docker-compose-api.yaml rm -f
 # Starting new stack environment
 #docker-compose -f docker-compose-api.yaml up -d --no-color --build
 
-mkdir -p /home/jenkins/target
-chown -R ${HOST_UID_GID} /home/jenkins/target
-chmod -R ug+rwx /home/jenkins/target
+#mkdir -p /home/jenkins/target
+#chown -R ${HOST_UID_GID} /home/jenkins/target
+#chmod -R ug+rwx /home/jenkins/target
 
 docker-compose -f docker-compose-api.yaml run --rm -e TYPE="@API" -u ${HOST_UID_GID} --entrypoint="./runner-api.sh" api-test-service
 #docker-compose -f docker-compose-api.yaml run -e TYPE="@API" --user "1001:1001" --entrypoint="./runner-api.sh" api-test-service
