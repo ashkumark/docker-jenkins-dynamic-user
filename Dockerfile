@@ -84,11 +84,13 @@ RUN mkdir -p $MAVEN_CONFIG/repository
 
 RUN chown -R $user:$group $MAVEN_HOME
 RUN chmod -R ug+rwx $MAVEN_HOME
-RUN chown -R $user:$group $JENKINS_HOME/.m2
-RUN chmod -R ug+rwx $JENKINS_HOME/.m2
+RUN chown -R $user:$group $MAVEN_CONFIG
+RUN chmod -R ug+rwx $MAVEN_CONFIG
 
 RUN chown -R $user:$group /usr/share/maven/bin/mvn
 RUN chmod ug+rwx /usr/share/maven/bin/mvn
+RUN chown -R $user:$group /usr/share/maven/
+RUN chmod ug+rwx /usr/share/maven/
 
 RUN chown -R $user:$group $JENKINS_HOME
 RUN chmod -R ug+rwx $JENKINS_HOME
