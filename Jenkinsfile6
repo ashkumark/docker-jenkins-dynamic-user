@@ -1,0 +1,140 @@
+pipeline {
+    agent any
+
+    environment {
+        dockerImage = ''
+        JENKINS_USER_ID = "${sh(script: 'id -u', returnStdout: true).trim()}"
+        JENKINS_GROUP_ID = "${sh(script: 'id -g', returnStdout: true).trim()}"
+        currentWorkspace = ''
+    }
+
+    options {
+        timeout(time: 10, unit: 'MINUTES')
+    }
+
+    stages {
+        stage("Check Docker version") {
+            steps {
+                echo 'JENKINS_USER_ID'
+                echo JENKINS_USER_ID
+                echo 'JENKINS_GROUP_ID'
+                echo JENKINS_GROUP_ID
+                sh '''
+                  docker version
+                  docker info
+                '''
+            }
+        }
+
+        stage('Docker System Prune') {
+            steps {
+                sh 'docker system prune -a --volumes -f'
+            }
+        }
+
+        stage('Build Image') {
+            steps {
+                script {
+                    dockerImage = docker.build("docker-jenkins-automation:latest")
+                    echo "image built"
+                    sh 'docker image ls'
+                    currentWorkspace = "$WORKSPACE"
+                    echo "Current workspace is ${currentWorkspace}"
+                }
+            }
+        }
+
+        stage('API Automation') {
+            agent {
+                docker {
+                    image 'docker-jenkins-automation:latest'
+                    label 'docker'
+                    args '-v $HOME/.m2:/home/jenkins/.m2'
+                    reuseNode true
+                }
+            }
+            steps {
+                sh '''#!/bin/bash
+                      echo "Check permissions 1"
+                      echo "Current workspace is ${currentWorkspace}"
+                      ls -lrt
+                      whoami
+                      docker ps 
+                      docker-compose config
+                      echo "printenv"
+                      printenv
+                '''
+/*                sh 'docker-compose -f docker-compose-api.yaml up -d --no-color --no-build'
+                sh 'docker-compose -f docker-compose-api.yaml ps'
+                sh 'docker-compose -f docker-compose-api.yaml run -e TYPE="@API" api-test-service'*/
+
+                echo "Docker compose run.."
+                sh '''#!/bin/bash
+                        echo "Check permissions 2"
+                        echo "Current workspace is ${currentWorkspace}"
+                        chown -R $JENKINS_USER_ID:$JENKINS_GROUP_ID "$WORKSPACE"
+                        chmod -R ug+rwx "$WORKSPACE"
+                        ls -lrt
+                        whoami
+                        ./run-api-tests.sh
+                '''
+                /*script {
+                    echo "Docker compose run.."
+                    sh 'chmod +x -R ${env.WORKSPACE}'
+                    sh './run-api-tests.sh'
+                }*/
+
+            }
+        }
+
+        stage('Generate HTML report') {
+            steps {
+                cucumber buildStatus: '',
+                        reportTitle: 'Cucumber report',
+                        fileIncludePattern: '**/*.json',
+                        jsonReportDirectory: "${currentWorkspace}/target",
+                        trendsLimit: 10,
+                        classifications: [
+                                [
+                                        'key'  : 'API',
+                                        'value': 'API'
+                                ]
+                        ]
+            }
+        }
+    }
+
+    post {
+        always {
+            // publish html reports
+            publishHTML target: [
+                    allowMissing         : false,
+                    alwaysLinkToLastBuild: false,
+                    keepAll              : true,
+                    reportDir            : "${currentWorkspace}/target/Reports/",
+                    reportFiles          : 'automated-test-report.html',
+                    reportName           : 'Extent Test Report'
+            ]
+            publishHTML target: [
+                    allowMissing         : false,
+                    alwaysLinkToLastBuild: false,
+                    keepAll              : true,
+                    reportDir            : "${currentWorkspace}/target/cucumber-html-report/",
+                    reportFiles          : 'regression-tests.html',
+                    reportName           : 'Cucumber Test Report'
+            ]
+
+           // cleanWs()
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
