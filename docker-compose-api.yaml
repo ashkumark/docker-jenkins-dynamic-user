@@ -16,10 +16,13 @@ services:
     networks:
       - rest
     volumes:
-#      - "$PWD:/home/jenkins"
-#      - "$HOME/.m2:/root/.m2"
-#      - "$PWD/target:/home/jenkins/target"
-      - ./reports:/home/jenkins/target/
+      - "$HOME/.m2:/root/.m2"
+      - "$PWD/target:/home/jenkins/target"
+      - "$PWD:/home/jenkins"
+#     - ./reports:/home/jenkins/target/
+
+
+
     environment:
       - TYPE="@API"
 #   command: /bin/sh -c "./runner-api.sh"
