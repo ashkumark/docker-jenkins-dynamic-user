@@ -87,8 +87,11 @@ RUN chmod -R ug+rwx $MAVEN_HOME
 RUN chown -R $user:$group $JENKINS_HOME/.m2
 RUN chmod -R ug+rwx $JENKINS_HOME/.m2
 
-RUN chown -R $user:$group /usr/local/bin/docker-compose
-RUN chmod ug+x /usr/local/bin/docker-compose
+RUN chown -R $user:$group /usr/share/maven/bin/mvn
+RUN chmod ug+rwx /usr/share/maven/bin/mvn
+
+RUN chown -R $user:$group $JENKINS_HOME
+RUN chmod -R ug+rwx $JENKINS_HOME
 
 #ENV MAVEN_VERSION 3.9.5
 #RUN wget --no-check-certificate https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz
