@@ -34,7 +34,7 @@ echo "User/Group ID - ${HOST_UID_GID}"
 docker-compose -f docker-compose-api.yaml rm -f
 
 # Starting new stack environment
-docker-compose -f docker-compose-api.yaml up -d --no-color --build
+#docker-compose -f docker-compose-api.yaml up -d --no-color --build
 
 mkdir -p /home/jenkins/target
 RUN chown -R ${HOST_UID_GID} /home/jenkins/target

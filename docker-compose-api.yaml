@@ -17,6 +17,7 @@ services:
       - rest
     volumes:
       - ./reports:/home/jenkins/target/
+      - $HOME/.m2:/root/.m2
     environment:
       - TYPE="@API"
 #   command: /bin/sh -c "./runner-api.sh"
