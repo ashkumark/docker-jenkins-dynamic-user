@@ -82,8 +82,13 @@ ENV MAVEN_HOME /usr/share/maven
 ENV MAVEN_CONFIG $JENKINS_HOME/.m2
 RUN mkdir -p $MAVEN_CONFIG/repository
 
-RUN chown -R $user:$group $JENKINS_HOME
-RUN chmod -R ug+rwx $JENKINS_HOME
+RUN chown -R $user:$group $MAVEN_HOME
+RUN chmod -R ug+rwx $MAVEN_HOME
+RUN chown -R $user:$group $JENKINS_HOME/.m2
+RUN chmod -R ug+rwx $JENKINS_HOME/.m2
+
+RUN chown -R $user:$group /usr/local/bin/docker-compose
+RUN chmod ug+x /usr/local/bin/docker-compose
 
 #ENV MAVEN_VERSION 3.9.5
 #RUN wget --no-check-certificate https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz
@@ -113,7 +118,7 @@ RUN curl -k -fsSL "https://github.com/docker/compose/releases/download/${DOCKER_
 #RUN curl -fsSL "https://sourceforge.net/projects/docker-compose.mirror/files/${DOCKER_COMPOSE_VERSION}/docker-compose-linux-x86_64/download"  \
 #    -o /usr/local/bin/docker-compose
 
-RUN chown -R ${user}:${user} /usr/local/bin/docker-compose
+RUN chown -R $user:$group /usr/local/bin/docker-compose
 RUN chmod ug+x /usr/local/bin/docker-compose
 #RUN ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 
@@ -123,3 +128,4 @@ RUN chmod ug+x /usr/local/bin/docker-compose
 #RUN chmod -R ug+rwx /usr/bin/docker-compose
 
 USER ${user}
+CMD ["mvn"]

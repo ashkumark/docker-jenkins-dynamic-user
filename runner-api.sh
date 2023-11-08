@@ -7,17 +7,14 @@ ls -lrt
 mvn -version
 #chown -R 1001:1001 /home/jenkins
 
-#version 1
-
-#mvn -f pom.xml test -Dtest=TestRunner -Dcucumber.filter.tags=$TYPE
+mvn -f pom.xml test -Dtest=TestRunner -Dcucumber.filter.tags=$TYPE
 #mvn clean test -Dtest=TestRunner -Dcucumber.filter.tags=$TYPE
-mvn test -Dcucumber.filter.tags=$TYPE
+#mvn test -Dcucumber.filter.tags=$TYPE
 echo "API tests run completed..."
 
 #version 2 - copy target from container to host
 sleep 3s
 echo "Check permissions in runner"
-whoami
 pwd
 ls -lrt
 
