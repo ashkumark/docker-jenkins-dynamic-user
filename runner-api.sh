@@ -13,7 +13,7 @@ mvn test -Dcucumber.filter.tags=$TYPE
 echo "API tests run completed..."
 
 #version 2 - copy target from container to host
-sleep 180s
+#sleep 180s
 echo "Check permissions in runner"
 pwd
 ls -lrt
