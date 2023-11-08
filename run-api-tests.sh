@@ -13,7 +13,13 @@ docker-compose -p $COMPOSE_ID rm -f
 # Starting new stack environment
 docker-compose -p $COMPOSE_ID -f docker-compose-api.yaml up -d --no-color --build
 
+echo "* UP - sleeping for 180s.. check containers and target folder"
+sleep 180s
+
 docker-compose -p $COMPOSE_ID -f docker-compose-api.yaml run -e TYPE="@API" -u ${HOST_UID_GID} api-test-service
+
+echo "* RUN - sleeping AGAIN for 180s.. check containers and target folder"
+sleep 180s
 
 #docker-compose -p $COMPOSE_ID -f docker-compose-api.yaml run -e TYPE="@API" -u ${HOST_UID_GID} api-test-service --name "api"
 #docker exec api bash
