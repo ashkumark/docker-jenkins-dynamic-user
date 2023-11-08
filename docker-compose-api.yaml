@@ -17,8 +17,8 @@ services:
       - rest
     volumes:
       - "$HOME/.m2:/root/.m2"
-      - "$PWD:/home/jenkins"
       - "$PWD/target:/home/jenkins/target"
+#      - "$PWD:/home/jenkins"
 #     - ./reports:/home/jenkins/target/
     environment:
       - TYPE="@API"
