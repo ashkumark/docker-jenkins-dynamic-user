@@ -40,7 +40,7 @@ mkdir -p /home/jenkins/target
 RUN chown -R ${HOST_UID_GID} /home/jenkins/target
 RUN chmod -R ug+rwx /home/jenkins/target
 
-docker-compose -f docker-compose-api.yaml run --rm -e TYPE="@API" -u ${HOST_UID_GID} -w /home/jenkins --entrypoint="./runner-api.sh" api-test-service
+docker-compose -f docker-compose-api.yaml run --rm -e TYPE="@API" -u ${HOST_UID_GID} --entrypoint="./runner-api.sh" api-test-service
 #docker-compose -f docker-compose-api.yaml run -e TYPE="@API" --user "1001:1001" --entrypoint="./runner-api.sh" api-test-service
 #docker-compose -f docker-compose-api.yaml run -e TYPE="@API" --entrypoint="./runner-api.sh" api-test-service
 
