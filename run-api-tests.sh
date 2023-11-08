@@ -36,8 +36,7 @@ docker-compose -f docker-compose-api.yaml rm -f
 # Starting new stack environment
 docker-compose -f docker-compose-api.yaml up -d --no-color --build
 
-HOST_UID_GID1=
-docker-compose -f docker-compose-api.yaml run -e TYPE="@API" -u ${HOST_UID_GID1} --entrypoint="./runner-api.sh" api-test-service
+docker-compose -f docker-compose-api.yaml run -e TYPE="@API" -u ${HOST_UID_GID} --entrypoint="./runner-api.sh" api-test-service
 #docker-compose -f docker-compose-api.yaml run -e TYPE="@API" --user "1001:1001" --entrypoint="./runner-api.sh" api-test-service
 #docker-compose -f docker-compose-api.yaml run -e TYPE="@API" --entrypoint="./runner-api.sh" api-test-service
 
