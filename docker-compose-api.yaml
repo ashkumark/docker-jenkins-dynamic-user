@@ -16,8 +16,9 @@ services:
     networks:
       - rest
     volumes:
-      - "$HOME/.m2:/root/.m2"
+#      - "$HOME/.m2:/root/.m2"
       - "$PWD/target:/home/jenkins/target"
+      - "$HOME/.m2:/var/maven/.m2"
 #      - "$PWD:/home/jenkins"
 #     - ./reports:/home/jenkins/target/
     environment:
