@@ -76,6 +76,8 @@ pipeline {
                         chmod -R ug+rwx "$WORKSPACE"
                         ls -lrt
                         whoami
+                        chown -R $JENKINS_USER_ID:$JENKINS_GROUP_ID ./run-api-tests.sh
+                        chmod ug+x ./run-api-tests.sh
                         ./run-api-tests.sh
                 '''
                 /*script {
