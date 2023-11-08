@@ -131,4 +131,5 @@ RUN chmod ug+x /usr/local/bin/docker-compose
 #RUN chmod -R ug+rwx /usr/bin/docker-compose
 
 USER ${user}
-CMD ["mvn"]
+#CMD ["mvn", "clean"]
+ENTRYPOINT ["mvn","clean"]
